@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="tosad_2017_2b_team5:war exploded">
-    <output-path>$PROJECT_DIR$/target/webappRunnerSample-1.0-SNAPSHOT</output-path>
+    <output-path>$PROJECT_DIR$/target/webappRunnerSample</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -28,7 +28,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/webappRunnerSample-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/webappRunnerSample/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="tosad_2017_2b_team5/web/Web" />
     </root>
