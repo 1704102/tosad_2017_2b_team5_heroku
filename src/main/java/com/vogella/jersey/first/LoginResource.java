@@ -14,16 +14,15 @@ import javax.ws.rs.core.MediaType;
 @Path("database")
 public class LoginResource {
 
-    @POST
-    @Path("/{param1}")
-    @Consumes(MediaType.TEXT_PLAIN)
+    @GET
+    @Path("/hello")
     @Produces(MediaType.APPLICATION_JSON)
-    public String Login(@PathParam("param1") String url) {
+    public String Login() {
         ClassController cC = new ClassController();
 
         StringBuilder tables = new StringBuilder();
-        RepConnector c = new RepConnector(url, "8521","cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
-        //RepConnector c = new RepConnector("ondora02.hu.nl", "8521","cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+        //RepConnector c = new RepConnector(url, "8521","cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+        RepConnector c = new RepConnector("ondora02.hu.nl", "8521","cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
         Database dat = new Database("target");
 
         cC.loadDatabase("ondora", c.GetDatabase());
