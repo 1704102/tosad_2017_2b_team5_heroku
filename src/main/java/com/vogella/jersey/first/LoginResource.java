@@ -18,16 +18,6 @@ public class LoginResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String Login() {
-        ClassController cC = new ClassController();
-
-        StringBuilder tables = new StringBuilder();
-        //RepConnector c = new RepConnector(url, port, service, username, password);
-        RepConnector c = new RepConnector("ondora02.hu.nl", "8521","cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
-        Database dat = new Database("target");
-
-        cC.loadDatabase("ondora", c.GetDatabase());
-
-
 
         return "succes";
     }
