@@ -11,7 +11,7 @@
     <repositories>
         <repository>
             <id>Datanucleus</id>
-            <url>http://www.datanuclues.org/downloads/maven2/</url>
+            <url>http://www.datanucleus.org/downloads/maven2/</url>
         </repository>
     </repositories>
     <dependencies>
