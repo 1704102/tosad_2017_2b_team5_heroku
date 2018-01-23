@@ -1,9 +1,5 @@
 package com.vogella.jersey.first;
 
-import com.vogella.jersey.first.Model.ClassController;
-import com.vogella.jersey.first.Model.Database;
-import com.vogella.jersey.first.repDatabase.RepConnector;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
