@@ -41,7 +41,7 @@ public class RepConnector {
 
     public HashMap<String,ArrayList<String>> GetDatabase(){
         connect();
-        HashMap<String,ArrayList<String>> columns = new HashMap<>();
+        HashMap<String,ArrayList<String>> columns = new HashMap<String, ArrayList<String>>();
         ResultSet s = select(QUERY_COLUMS);
         try {
             while (s.next()) {
