@@ -8,6 +8,12 @@
     <name>webappRunnerSample Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
+    <repositories>
+        <repository>
+            <id>Datanucleus</id>
+            <url>http://www.datanuclues.org/downloads/maven2/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -24,6 +30,11 @@
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
             <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.3</version>
         </dependency>
     </dependencies>
     <build>
@@ -44,6 +55,11 @@
                                     <artifactId>webapp-runner</artifactId>
                                     <version>8.5.27.0</version>
                                     <destFileName>webapp-runner.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>oracle</groupId>
+                                    <artifactId>ojdbc6</artifactId>
+                                    <version>11.2.0.3</version>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
