@@ -17,17 +17,19 @@ public class LoginResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String Login(@QueryParam("url")  String url,@QueryParam("port")  String port,@QueryParam("service")  String service,@QueryParam("username")  String username,@QueryParam("password")  String password) {
-        ClassController cC = new ClassController();
+        try {
+            ClassController cC = new ClassController();
 
-        StringBuilder tables = new StringBuilder();
-        RepConnector c = new RepConnector(url, port, service, username, password);
-        //RepConnector c = new RepConnector("ondora02.hu.nl", "8521","cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
-        Database dat = new Database("target");
+            StringBuilder tables = new StringBuilder();
+            //RepConnector c = new RepConnector(url, port, service, username, password);
+            RepConnector c = new RepConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+            Database dat = new Database("target");
 
-        cC.loadDatabase("ondora", c.GetDatabase());
+            cC.loadDatabase("ondora", c.GetDatabase());
+            return "succes";
+        }catch (Exception e){
+            return "wrong input data";
+        }
 
-
-
-        return "succes";
     }
 }
