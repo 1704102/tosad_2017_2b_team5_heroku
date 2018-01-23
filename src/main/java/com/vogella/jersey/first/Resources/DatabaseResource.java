@@ -3,10 +3,7 @@ package com.vogella.jersey.first.Resources;
 import com.vogella.jersey.first.Model.ClassController;
 import com.vogella.jersey.first.DOA.TargetConnector;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonBuilderFactory;
-import javax.json.JsonObjectBuilder;
+import javax.json.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -40,6 +37,7 @@ public class DatabaseResource{
     @Produces(MediaType.APPLICATION_JSON)
     public String getTables(){
 
+
         JsonArray value = Json.createArrayBuilder()
                 .add(Json.createObjectBuilder()
                         .add("type", "home")
@@ -48,6 +46,7 @@ public class DatabaseResource{
                         .add("type", "fax")
                         .add("number", "646 555-4567"))
                 .build();
-        return value.toString();
+        JsonObject o = Json.createObjectBuilder().add("objects", value).build();
+        return o.toString();
     }
 }
