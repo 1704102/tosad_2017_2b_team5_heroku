@@ -15,9 +15,8 @@ import javax.ws.rs.core.MediaType;
 public class LoginResource {
 
     @GET
-    @Path("/{param1}/{param2}/{param3}/{param4}/{param5}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String Login(@PathParam("param1") String url,@PathParam("param2") String port, @PathParam("param3") String service,@PathParam("param4") String username, @PathParam("param5") String password) {
+    public String Login(@QueryParam("url")  String url,@QueryParam("port")  String port,@QueryParam("service")  String service,@QueryParam("username")  String username,@QueryParam("password")  String password) {
         ClassController cC = new ClassController();
 
         StringBuilder tables = new StringBuilder();
