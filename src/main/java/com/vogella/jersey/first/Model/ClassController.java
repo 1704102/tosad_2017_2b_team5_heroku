@@ -9,6 +9,9 @@ public class ClassController {
     public ClassController(){}
 
     public void loadDatabase(String name, HashMap<String,ArrayList<String>> database){
+        for(Database dat : databases){
+            if(dat.getName().equals(name)){return;}
+        }
         Database d = new Database(name);
         for ( String key : database.keySet() ) {
             d.addtable(key);

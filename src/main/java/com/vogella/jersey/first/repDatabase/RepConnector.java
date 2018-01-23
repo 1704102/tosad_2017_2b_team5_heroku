@@ -4,25 +4,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * Created by marti on 23-1-2018.
+ */
 public class RepConnector {
 
-    private String url;
-    private String port;
-    private String username;
-    private String password;
-    private String service;
+    private String url = "ondora02.hu.nl";
+    private String port = "8521";
+    private String username = "tosad_2017_2b_team5";
+    private String password = "tosad_2017_2b_team5";
+    private String service = "cursus02.hu.nl";
     private Connection conn;
-    private final String QUERY_COLUMS = "SELECT * FROM USER_TAB_COLUMNS";
-    private final String QUERY_CONSTRAINT = "SELECT * FROM user_constraints";
 
-    public RepConnector(String url, String port, String service, String username, String password){
-        this.url = url;
-        this.port = port;
-        this.username = username;
-        this.password = password;
-        this.service = service;
-        connect();
+    public RepConnector(){
     }
 
 
@@ -31,30 +25,24 @@ public class RepConnector {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@//"+ url +":"+ port + "/" + service,username, password);
-            System.out.println("connection succesfull");
         } catch (Exception e) {
-            System.out.println("connection failed");
             e.printStackTrace();
         }
     }
 
 
-    public HashMap<String,ArrayList<String>> GetDatabase(){
-        connect();
-        HashMap<String,ArrayList<String>> columns = new HashMap<String, ArrayList<String>>();
-        ResultSet s = select(QUERY_COLUMS);
+    public boolean login(String username, String password){
         try {
-            while (s.next()) {
-                if(columns.get(s.getString("table_name")) == null){
-                    columns.put(s.getString("table_name"), new ArrayList<String>());
-                }
-                columns.get(s.getString("table_name")).add(s.getString("column_name"));
+            connect();
+            String query = String.format("select * from inlog where username = '%s' and password = '%s'", username, password);
+            ResultSet s = select(query);
+            int count = 0;
+            while (s.next()){
+                count++;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        disconnect();
-        return columns;
+            if (count == 1) return true;
+        }catch (Exception e){}
+        return false;
     }
 
     public void disconnect() {
@@ -74,3 +62,5 @@ public class RepConnector {
         return s;
     }
 }
+
+
