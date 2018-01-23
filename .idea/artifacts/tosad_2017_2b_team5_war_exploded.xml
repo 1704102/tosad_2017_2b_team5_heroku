@@ -1,13 +1,12 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="tosad_2017_2b_team5:war exploded">
-    <output-path>$PROJECT_DIR$/target/webappRunnerSample</output-path>
+    <output-path>$PROJECT_DIR$/target/webappRunnerSample-1.0-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="tosad_2017_2b_team5" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.17" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet:2.25.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet-core:2.25.1" />
           <element id="library" level="project" name="Maven: org.glassfish.hk2.external:javax.inject:2.5.0-b32" />
@@ -29,7 +28,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/webappRunnerSample/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/webappRunnerSample-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="tosad_2017_2b_team5/web/Web" />
     </root>

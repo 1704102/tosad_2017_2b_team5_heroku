@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="tosad_2017_2b_team5:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="webappRunnerSample.war">
+    <root id="archive" name="webappRunnerSample-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="tosad_2017_2b_team5:war exploded" />
     </root>
   </artifact>
