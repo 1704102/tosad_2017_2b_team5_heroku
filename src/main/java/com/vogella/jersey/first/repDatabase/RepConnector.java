@@ -58,7 +58,7 @@ public class RepConnector {
                 insert(String.format("insert into database_target(url,port,service,username,password) values ('%s', '%s', '%s', '%s', '%s')", url, port, service, username, password));
                 ResultSet s1 = select(String.format("select * from database_target where url = '%s'", url));
                 while (s1.next()){
-                    insert(String.format("insert into klant_database_target(database_target_id, inlogid) values (%d, %d)", id, s1.getInt("id")));
+                    insert(String.format("insert into klant_database_target(database_target_id, inlogid) values (%d, %d)",s1.getInt("id"),id));
                 }
                 System.out.println("added database");
             }
