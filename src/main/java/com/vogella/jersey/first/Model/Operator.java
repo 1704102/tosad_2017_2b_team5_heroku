@@ -20,7 +20,7 @@ public class Operator {
         if (operator.equals("more then or equal")){
             operator="<";
         }
-        if(operator.equals(">") || operator.equals("=") || operator.equals("<") || operator.equals(">=")|| operator.equals("<=")) {
+        if(operator.equals(">") || operator.equals("=") || operator.equals("<") || operator.equals(">=")|| operator.equals("<=")|| operator.equals("!=")) {
 
             this.operator = operator;
             succes=true;
@@ -39,7 +39,7 @@ public class Operator {
     }
 
     public void setOperator(String operator) {
-        if(operator.equals(">")||operator.equals("=")||operator.equals("<")|| operator.equals(">=")|| operator.equals("<=") ){
+        if(operator.equals(">")||operator.equals("=")||operator.equals("<")|| operator.equals(">=")|| operator.equals("<=")|| operator.equals("!=") ){
             this.operator = operator;
         }
     }
