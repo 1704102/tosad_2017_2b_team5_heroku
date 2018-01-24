@@ -56,7 +56,7 @@ public class RepConnector {
             }
             if (count != 1) {
                 insert(String.format("insert into database_target(url,port,service,username,password) values ('%s', '%s', '%s', '%s', '%s')", url, port, service, username, password));
-                insert(String.format("insert into klant_database_target(database_target_id, inlogid) values ('%d', '%d')", id, 2));
+                insert(String.format("insert into klant_database_target(database_target_id, inlogid) values (%d, %d)", id, 2));
                 System.out.println("added database");
             }
             disconnect();
