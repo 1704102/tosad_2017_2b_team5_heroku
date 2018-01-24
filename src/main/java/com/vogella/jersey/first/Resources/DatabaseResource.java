@@ -7,6 +7,7 @@ import com.vogella.jersey.first.repDatabase.RepConnector;
 import javax.json.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.sql.ResultSet;
 
 /**
  * Created by marti on 13-6-2017.
@@ -53,5 +54,25 @@ public class DatabaseResource{
                 .build();
         JsonObject o = Json.createObjectBuilder().add("objects", value).build();
         return o    .toString();
+    }
+
+    @GET
+    @Path("/databases")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getDatabases(@QueryParam("url")  int id){
+        StringBuilder s = new StringBuilder();
+        RepConnector con = new RepConnector();
+        try {
+            con.connect();
+            ResultSet set = con.select(String.format("select * from klant_database_target, database_target where inlogid = %d and a.database_target_id = id", id));
+            while (set.next()){
+                s.append(set.getString("url") + ",");
+                s.append(set.getString("port") + ",");
+                s.append(set.getString("service"));
+
+            }
+            con.disconnect();
+        }catch (Exception e){}
+        return s.toString();
     }
 }

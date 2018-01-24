@@ -20,6 +20,7 @@ public class ClassController {
             }
         }
         databases.add(d);
+        System.out.println("database created");
     }
 
     public boolean makeBusinessRangeRule(int value1,int value2,  String table1, String Column1,String databaseName ){
