@@ -14,6 +14,7 @@ public class LoginResource {
     @GET
     public String login(@QueryParam("username")  String username, @QueryParam("password")  String password){
         RepConnector con = new RepConnector();
-        if (con.login(username, password)){return "true";}else {return "false";}
+        int id;
+        if (con.login(username, password) != "0"){return con.login(username,password);}else {return "false";}
     }
 }

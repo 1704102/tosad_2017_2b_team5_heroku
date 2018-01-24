@@ -31,19 +31,19 @@ public class RepConnector {
     }
 
 
-    public boolean login(String username, String password){
+    public String login(String username, String password){
+        String id = "0";
         try {
             connect();
             String query = String.format("select * from inlog where username = '%s' and password = '%s'", username, password);
             ResultSet s = select(query);
-            int count = 0;
+
             while (s.next()){
-                count++;
+                id = s.getString("id");
             }
             disconnect();
-            if (count == 1) return true;
         }catch (Exception e){}
-        return false;
+        return id;
     }
 
     public void addDatabase(String url, String port, String service, String username, String password, int id) {
@@ -57,6 +57,7 @@ public class RepConnector {
             if (count != 1) {
                 insert(String.format("insert into database_target(url,port,service,username,password) values ('%s', '%s', '%s', '%s', '%s')", url, port, service, username, password));
                 insert(String.format("insert into klant_database_target(database_target_id, inlogid) values ('%d', '%d')", id, 2));
+                System.out.println("added database");
             }
             disconnect();
         } catch (Exception e) {
