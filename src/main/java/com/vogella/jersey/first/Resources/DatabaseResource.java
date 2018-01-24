@@ -64,7 +64,7 @@ public class DatabaseResource{
         RepConnector con = new RepConnector();
         try {
             con.connect();
-            ResultSet set = con.select(String.format("select * from klant_database_target, database_target where inlogid = %d and a.database_target_id = id", id));
+            ResultSet set = con.select(String.format("select * from klant_database_target, database_target where inlogid = %d and database_target_id = id", id));
             while (set.next()){
                 s.append(set.getString("url") + ",");
                 s.append(set.getString("port") + ",");
