@@ -40,9 +40,27 @@ public class RepConnector {
             while (s.next()){
                 count++;
             }
+            disconnect();
             if (count == 1) return true;
         }catch (Exception e){}
         return false;
+    }
+
+    public void addDatabase(String url, String port, String service, String username, String password, int id) {
+        try {
+            connect();
+            ResultSet s = select(String.format("select * from database_target where url = '%s'", url));
+            int count = 0;
+            while (s.next()) {
+                count++;
+            }
+            if (count != 1) {
+                insert(String.format("insert into database_target(url,port,service,username,password) values ('%s', '%s', '%s', '%s', '%s')", url, port, service, username, password));
+                insert(String.format("insert into klant_database_target(database_target_id, inlogid) values ('%d', '%d')", id, 2));
+            }
+            disconnect();
+        } catch (Exception e) {
+        }
     }
 
     public void disconnect() {
@@ -60,6 +78,14 @@ public class RepConnector {
             s = stm.executeQuery(query);
         }catch (Exception e){}
         return s;
+    }
+
+    public void insert(String query){
+        try {
+            Statement t = conn.createStatement();
+                    t.execute(query);
+            conn.commit();
+        }catch (Exception e){}
     }
 }
 
