@@ -43,7 +43,7 @@ public class ClassController {
                 }
                 column=table.getColumn(column1);
                 if(column==null){
-                    return "table not found";
+                    return "Column not found";
                 }
             }
                 Operator operator= new Operator(operatorS);
@@ -57,5 +57,35 @@ public class ClassController {
 
         return "falliure to load database because no databasename that exist was given with the code";
     }
+    public String makeTupleRangeRule(String table1s, String column1s, String column2s, String operators,String databaseName){
+        for(Database d : databases){
+            Column column1= null;
+            Column column2= null;
+            Table table = null;
+            Operator operator = null;
+            if(d.getName().equals(databaseName)) {
+                table=d.getTable(table1s);
+                if(table==null){
+                    return "table not found";
+                }
+                column1=table.getColumn(column1s);
+                if(column1==null){
+                    return "table not found";
+                }
+                column2=table.getColumn(column2s);
+                if(column2==null){
+                    return "Column not found";
+                }
+                operator= new Operator(operators);
+                if(operator.getSucces()==false){
+                    return "incorrect operator entered or recieved try sending our one of the follwing \"=,>,<,!=,>=,<=, or < \" ";
+                }
+                Business_Rule br;
+                br= new Business_Rule(table, column1, column2, operator);
 
+            }
+        }
+        return "falliure to load database because no databasename that exist was given with the code";
+
+    }
 }
