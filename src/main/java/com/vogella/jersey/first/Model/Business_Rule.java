@@ -7,6 +7,16 @@ public class Business_Rule {
     private Table table1, table2;
     private Column column1, column2;
     private String type;
+
+    public String getRulename() {
+        return Rulename;
+    }
+
+    public void setRulename(String rulename) {
+        Rulename = rulename;
+    }
+
+    private String Rulename;
     //This is the constructor for range rules
     public Business_Rule(int value1, int value2,Table table1,Column column1){
         this.value1=value1;

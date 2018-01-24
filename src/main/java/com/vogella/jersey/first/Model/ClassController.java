@@ -144,7 +144,14 @@ public class ClassController {
         return saveRules;
 
     }
-    public void finalizeRule(){
-
+    public ArrayList<String> Commitsave(String databaseName, Business_Rule br) {
+        ArrayList<String>newRule=saveRule(databaseName,br);
+        String naam = br.getRulename();
+        newRule.add(naam);
+        return newRule;
     }
+    public void repoSave(){
+        //save to reposotory.
+    }
+    public void targetSave(){}
 }
