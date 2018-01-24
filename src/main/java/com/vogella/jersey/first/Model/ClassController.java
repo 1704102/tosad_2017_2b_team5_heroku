@@ -32,5 +32,30 @@ public class ClassController {
         }
         return b;
     }
+    public String makeBusinessAtrributeRule(int value1,String table1, String column1,String databaseName, String operatorS){
+        for(Database d : databases){
+            Column column= null;
+            Table table = null;
+            if(d.getName().equals(databaseName)){
+                table=d.getTable(table1);
+                if(table==null){
+                    return "table not found";
+                }
+                column=table.getColumn(column1);
+                if(column==null){
+                    return "table not found";
+                }
+            }
+                Operator operator= new Operator(operatorS);
+                if(operator.getSucces()==false){
+                    return "incorrect operator entered or recieved try sending our one of the follwing \"=,>,<,!=,>=,<=, or < \" ";
+                }
+            Business_Rule br;
+            br = new Business_Rule(table, column, operator);
+
+        }
+
+        return "falliure to load database because no databasename that exist was given with the code";
+    }
 
 }

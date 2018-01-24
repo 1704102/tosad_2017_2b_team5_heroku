@@ -2,7 +2,7 @@ package com.vogella.jersey.first.Model;
 
 public class Business_Rule {
     String brName;
-    private String operator;
+    private Operator operator;
     private int value1, value2;
     private Table table1, table2;
     private Column column1, column2;
@@ -17,16 +17,15 @@ public class Business_Rule {
         validateRangeRule();
     }
     //This is the constructor for tuple rules
-    public Business_Rule(Table table1, Column column1, Column column2, String operator){
+    public Business_Rule(Table table1, Column column1, Column column2, Operator operator){
         this.table1 = table1;
         this.column1 = column1;
         this.column2 = column2;
-        Operator o = new Operator(operator);
         this.operator = operator;
         type= "tupleRule";
     }
     //This is the constructor for attribute rules
-    public Business_Rule(Table table1, Column column1,String operator){
+    public Business_Rule(Table table1, Column column1,Operator operator){
         this.table1=table1;
         this.column1=column1;
         this.operator=operator;

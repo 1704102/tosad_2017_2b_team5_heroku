@@ -2,7 +2,7 @@ package com.vogella.jersey.first.Model;
 
 public class Operator {
     private String operator;
-    private String succes;
+    private Boolean succes;
     // this constructor has a safety feature added to make sure that commonly used ways of entering operators get converted to correct for errors;
     public Operator(String operator) {
         if (operator.equals("less then")){
@@ -23,10 +23,10 @@ public class Operator {
         if(operator.equals(">") || operator.equals("=") || operator.equals("<") || operator.equals(">=")|| operator.equals("<=")) {
 
             this.operator = operator;
-            succes="true";
+            succes=true;
         }
         else{
-            succes="false";
+            succes=false;
         }
     }
 
@@ -34,7 +34,7 @@ public class Operator {
         return operator;
     }
 
-    public String getSucces() {
+    public Boolean getSucces() {
         return succes;
     }
 
