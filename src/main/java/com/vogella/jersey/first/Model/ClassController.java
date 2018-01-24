@@ -27,7 +27,7 @@ public class ClassController {
                 Column column =table.getColumn(Column1);
                 Business_Rule br = new Business_Rule(value1, value2,table, column);
                 d.addBusinessRules(br);
-                saveRule(br);
+                saveRule(d.getName(),br);
                 b=true;
             }
         }
@@ -54,7 +54,7 @@ public class ClassController {
                 }
             Business_Rule br;
             br = new Business_Rule(table, column, operator);
-            saveRule(br);
+            saveRule(d.getName(),br);
             return "succes";
 
         }
@@ -86,7 +86,7 @@ public class ClassController {
                 }
                 Business_Rule br;
                 br= new Business_Rule(table, column1, column2, operator);
-                saveRule(br);
+                saveRule(d.getName(),br);
                 return "succes";
             }
         }
@@ -94,40 +94,57 @@ public class ClassController {
 
     }
 
-    public void saveRule(Business_Rule br){
+    public ArrayList<String> saveRule(String databaseName1,Business_Rule br){
         ArrayList<String> saveRules= new ArrayList();
-        String type =br.getType();
-        if (type.equals("rangeRule")){
-            String s = ""+br.getValue1();
-            String s2 = ""+br.getValue2();
-            String s3 = ""+br.getTable1().getName();
-            String s4 = ""+br.getColumn1().getName();
-            saveRules.add(s);
-            saveRules.add(s2);
-            saveRules.add(s3);
-            saveRules.add(s4);
+        String BRtype =br.getType();
+        // values first then operator, then tables then columns then database names
+        if (BRtype.equals("rangeRule")){
+            String value1 = ""+br.getValue1();
+            String value2 = ""+br.getValue2();
+            String table1 = ""+br.getTable1().getName();
+            String column1 = ""+br.getColumn1().getName();
+            String databaseName = databaseName1;
+            String type = ""+br.getType();
+            saveRules.add(value1);
+            saveRules.add(value2);
+            saveRules.add(table1);
+            saveRules.add(column1);
+            saveRules.add(databaseName);
+            saveRules.add(type);
         }
-        if (type.equals("attributerule")) {
-            String s = ""+ br.getValue1();
-            String s2 = ""+ br.getTable1().getName();
-            String s3 = ""+ br.getColumn1().getName();
-            String s4 = ""+ br.getOperator().getOperator();
-            saveRules.add(s);
-            saveRules.add(s2);
-            saveRules.add(s3);
-            saveRules.add(s4);
+        if (BRtype.equals("attributerule")) {
+            String value1 = ""+ br.getValue1();
+            String table1 = ""+ br.getTable1().getName();
+            String column1 = ""+ br.getColumn1().getName();
+            String operator = ""+ br.getOperator().getOperator();
+            String databaseName = databaseName1;
+            String type = ""+br.getType();
+            saveRules.add(value1);
+            saveRules.add(table1);
+            saveRules.add(column1);
+            saveRules.add(operator);
+            saveRules.add(databaseName);
+            saveRules.add(type);
+
         }
-        if (type.equals("tupleRule")){
-            String s = ""+br.getValue1();
-            String s2 = ""+ br.getTable1().getName();
-            String s3 = ""+ br.getColumn1().getName();
-            String s4 = ""+ br.getTable2().getName();
-            saveRules.add(s);
-            saveRules.add(s2);
-            saveRules.add(s3);
-            saveRules.add(s4);
+        if (BRtype.equals("tupleRule")){
+            String value1 = ""+br.getValue1();
+            String table = ""+ br.getTable1().getName();
+            String column1 = ""+ br.getColumn1().getName();
+            String column2 = ""+ br.getColumn2().getName();
+            String databaseName = databaseName1;
+            String type = ""+br.getType();
+            saveRules.add(value1);
+            saveRules.add(table);
+            saveRules.add(column1);
+            saveRules.add(column2);
+            saveRules.add(databaseName);
+            saveRules.add(type);
         }
+        return saveRules;
 
     }
+    public void finalizeRule(){
 
+    }
 }
