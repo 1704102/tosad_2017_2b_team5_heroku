@@ -27,10 +27,12 @@ public class ClassController {
                 Column column =table.getColumn(Column1);
                 Business_Rule br = new Business_Rule(value1, value2,table, column);
                 d.addBusinessRules(br);
+                saveRule(br);
                 b=true;
             }
         }
         return b;
+
     }
     public String makeBusinessAtrributeRule(int value1,String table1, String column1,String databaseName, String operatorS){
         for(Database d : databases){
@@ -52,6 +54,8 @@ public class ClassController {
                 }
             Business_Rule br;
             br = new Business_Rule(table, column, operator);
+            saveRule(br);
+            return "succes";
 
         }
 
@@ -82,10 +86,48 @@ public class ClassController {
                 }
                 Business_Rule br;
                 br= new Business_Rule(table, column1, column2, operator);
-
+                saveRule(br);
+                return "succes";
             }
         }
         return "falliure to load database because no databasename that exist was given with the code";
 
     }
+
+    public void saveRule(Business_Rule br){
+        ArrayList<String> saveRules= new ArrayList();
+        String type =br.getType();
+        if (type.equals("rangeRule")){
+            String s = ""+br.getValue1();
+            String s2 = ""+br.getValue2();
+            String s3 = ""+br.getTable1().getName();
+            String s4 = ""+br.getColumn1().getName();
+            saveRules.add(s);
+            saveRules.add(s2);
+            saveRules.add(s3);
+            saveRules.add(s4);
+        }
+        if (type.equals("attributerule")) {
+            String s = ""+ br.getValue1();
+            String s2 = ""+ br.getTable1().getName();
+            String s3 = ""+ br.getColumn1().getName();
+            String s4 = ""+ br.getOperator().getOperator();
+            saveRules.add(s);
+            saveRules.add(s2);
+            saveRules.add(s3);
+            saveRules.add(s4);
+        }
+        if (type.equals("tupleRule")){
+            String s = ""+br.getValue1();
+            String s2 = ""+ br.getTable1().getName();
+            String s3 = ""+ br.getColumn1().getName();
+            String s4 = ""+ br.getTable2().getName();
+            saveRules.add(s);
+            saveRules.add(s2);
+            saveRules.add(s3);
+            saveRules.add(s4);
+        }
+
+    }
+
 }
