@@ -1,7 +1,5 @@
 package com.vogella.jersey.first.Model;
 
-import javafx.scene.chart.PieChart;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
