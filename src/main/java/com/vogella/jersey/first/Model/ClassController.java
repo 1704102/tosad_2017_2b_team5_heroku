@@ -19,7 +19,7 @@ public class ClassController {
         databases.add(d);
     }
 
-    public boolean makeBusinessRangeRule(int value1,int value2,  String table1, String Column1,String databaseName ){
+    public Business_Rule makeBusinessRangeRule(int value1,int value2,  String table1, String Column1,String databaseName ){
        boolean b =false;
         for(Database d : databases){
             if(d.getName().equals(databaseName)){
@@ -27,41 +27,41 @@ public class ClassController {
                 Column column =table.getColumn(Column1);
                 Business_Rule br = new Business_Rule(value1, value2,table, column);
                 d.addBusinessRules(br);
-                saveRule(d.getName(),br);
-                b=true;
+                return(br);
             }
         }
-        return b;
+        return null;
 
     }
-    public String makeBusinessAtrributeRule(int value1,String table1, String column1,String databaseName, String operatorS){
+    public Business_Rule makeBusinessAtrributeRule(int value1,String table1, String column1,String databaseName, String operatorS){
         for(Database d : databases){
             Column column= null;
             Table table = null;
             if(d.getName().equals(databaseName)){
                 table=d.getTable(table1);
                 if(table==null){
-                    return "table not found";
+                    return null;
                 }
                 column=table.getColumn(column1);
                 if(column==null){
-                    return "Column not found";
+                    return null;
                 }
             }
                 Operator operator= new Operator(operatorS);
                 if(operator.getSucces()==false){
-                    return "incorrect operator entered or recieved try sending our one of the follwing \"=,>,<,!=,>=,<=, or < \" ";
+                    return null;
                 }
             Business_Rule br;
+
             br = new Business_Rule(table, column, operator);
-            saveRule(d.getName(),br);
-            return "succes";
+            d.addBusinessRules(br);
+            return br;
 
         }
 
-        return "falliure to load database because no databasename that exist was given with the code";
+        return null;
     }
-    public String makeTupleRangeRule(String table1s, String column1s, String column2s, String operators,String databaseName){
+    public Business_Rule makeTupleCompareRule(String table1s, String column1s, String column2s, String operators, String databaseName){
         for(Database d : databases){
             Column column1= null;
             Column column2= null;
@@ -70,27 +70,27 @@ public class ClassController {
             if(d.getName().equals(databaseName)) {
                 table=d.getTable(table1s);
                 if(table==null){
-                    return "table not found";
+                    return null;
                 }
                 column1=table.getColumn(column1s);
                 if(column1==null){
-                    return "table not found";
+                    return null;
                 }
                 column2=table.getColumn(column2s);
                 if(column2==null){
-                    return "Column not found";
+                    return null;
                 }
                 operator= new Operator(operators);
                 if(operator.getSucces()==false){
-                    return "incorrect operator entered or recieved try sending our one of the follwing \"=,>,<,!=,>=,<=, or < \" ";
+                    return null;
                 }
                 Business_Rule br;
                 br= new Business_Rule(table, column1, column2, operator);
-                saveRule(d.getName(),br);
-                return "succes";
+                d.addBusinessRules(br);
+                return br;
             }
         }
-        return "falliure to load database because no databasename that exist was given with the code";
+        return null;
 
     }
 
@@ -150,8 +150,41 @@ public class ClassController {
         newRule.add(naam);
         return newRule;
     }
-    public void repoSave(){
+    public void repoSave(String repo){
         //save to reposotory.
+    }
+
+    public void loadExistingRules(ArrayList<String> businessrulesData){
+        for(String splitted : businessrulesData){
+            String[] s = splitted.split(",");
+            int id = Integer.parseInt(s[0]);
+            String name = s[1];
+            String status = s[2];
+            String type = s[3];
+            String operator = s[4];
+            String databaseID = s[5];
+            int value1 = Integer.parseInt(s[6]);
+            int value2 = Integer.parseInt(s[7]);
+            String column1 = s[8];
+            String column2 = s[9];
+            String table1 = s[10];
+            String table2 = s[11];
+            String databaseName= s[11];
+
+            if (type == "rangeRule"){
+                Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,databaseName);
+                br.setBrName(name);
+                br.setStatus(status);
+                br.setId(id);
+            }
+            if (type == "attributerule"){
+                Business_Rule br = makeBusinessAtrributeRule(value1,table1,column1,databaseName,operator);
+            }
+            if(type == "tupleRule"){
+                Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,databaseName);
+            }
+        }
+
     }
     public void targetSave(){}
 }

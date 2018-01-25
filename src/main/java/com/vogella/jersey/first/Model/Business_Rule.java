@@ -1,12 +1,38 @@
 package com.vogella.jersey.first.Model;
 
 public class Business_Rule {
-    String brName;
+    private String brName;
     private Operator operator;
-    private int value1, value2;
+    private int value1, value2,id;
     private Table table1, table2;
     private Column column1, column2;
     private String type;
+    private String status;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getBrName() {
+        return brName;
+
+    }
+
+    public void setBrName(String brName) {
+        this.brName = brName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getRulename() {
         return Rulename;
