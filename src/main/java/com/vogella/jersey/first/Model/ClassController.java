@@ -8,61 +8,63 @@ public class ClassController {
     private ArrayList<Database> databases= new ArrayList();
     public ClassController(){}
 
-    public void loadDatabase(String name, HashMap<String,ArrayList<String>> tables, ArrayList<String> businesRules){
+    public void loadDatabase(String name, HashMap<String,ArrayList<String>> database, ArrayList<String> rules){
         Database d = new Database(name);
-        for ( String key : tables.keySet() ) {
+        for ( String key : database.keySet() ) {
             d.addtable(key);
-            for(int i = 0; i < tables.get(key).size(); i++){
-                d.getTable(key).addColumn(tables.get(key).get(i));
+            for(int i = 0; i < database.get(key).size(); i++){
+                d.getTable(key).addColumn(database.get(key).get(i));
             }
         }
-//      get rules
         databases.add(d);
+        loadExistingRules(rules);
+        System.out.println("aa");
+
     }
 
-    public boolean makeBusinessRangeRule(int value1,int value2,  String table1, String Column1,String databaseName ){
-       boolean b =false;
+    public Business_Rule makeBusinessRangeRule(String value1,String value2,  String table1, String Column1,String databaseName ){
+        boolean b =false;
         for(Database d : databases){
             if(d.getName().equals(databaseName)){
                 Table table=d.getTable(table1);
                 Column column =table.getColumn(Column1);
                 Business_Rule br = new Business_Rule(value1, value2,table, column);
                 d.addBusinessRules(br);
-                saveRule(d.getName(),br);
-                b=true;
+                return(br);
             }
         }
-        return b;
+        return null;
 
     }
-    public String makeBusinessAtrributeRule(int value1,String table1, String column1,String databaseName, String operatorS){
+    public Business_Rule makeBusinessAtrributeRule(String value1,String table1, String column1,String databaseName, String operatorS){
         for(Database d : databases){
             Column column= null;
             Table table = null;
             if(d.getName().equals(databaseName)){
                 table=d.getTable(table1);
                 if(table==null){
-                    return "table not found";
+                    return null;
                 }
                 column=table.getColumn(column1);
                 if(column==null){
-                    return "Column not found";
+                    return null;
                 }
             }
-                Operator operator= new Operator(operatorS);
-                if(operator.getSucces()==false){
-                    return "incorrect operator entered or recieved try sending our one of the follwing \"=,>,<,!=,>=,<=, or < \" ";
-                }
+            Operator operator= new Operator(operatorS);
+            if(operator.getSucces()==false){
+                return null;
+            }
             Business_Rule br;
-            br = new Business_Rule(table, column, operator);
-            saveRule(d.getName(),br);
-            return "succes";
+
+            br = new Business_Rule(value1,table, column, operator);
+            d.addBusinessRules(br);
+            return br;
 
         }
 
-        return "falliure to load database because no databasename that exist was given with the code";
+        return null;
     }
-    public String makeTupleRangeRule(String table1s, String column1s, String column2s, String operators,String databaseName){
+    public Business_Rule makeTupleCompareRule(String table1s, String column1s, String column2s, String operators, String databaseName){
         for(Database d : databases){
             Column column1= null;
             Column column2= null;
@@ -71,27 +73,27 @@ public class ClassController {
             if(d.getName().equals(databaseName)) {
                 table=d.getTable(table1s);
                 if(table==null){
-                    return "table not found";
+                    return null;
                 }
                 column1=table.getColumn(column1s);
                 if(column1==null){
-                    return "table not found";
+                    return null;
                 }
                 column2=table.getColumn(column2s);
                 if(column2==null){
-                    return "Column not found";
+                    return null;
                 }
                 operator= new Operator(operators);
                 if(operator.getSucces()==false){
-                    return "incorrect operator entered or recieved try sending our one of the follwing \"=,>,<,!=,>=,<=, or < \" ";
+                    return null;
                 }
                 Business_Rule br;
                 br= new Business_Rule(table, column1, column2, operator);
-                saveRule(d.getName(),br);
-                return "succes";
+                d.addBusinessRules(br);
+                return br;
             }
         }
-        return "falliure to load database because no databasename that exist was given with the code";
+        return null;
 
     }
 
@@ -151,9 +153,43 @@ public class ClassController {
         newRule.add(naam);
         return newRule;
     }
-    public void repoSave(){
+    public void repoSave(String repo){
         //save to reposotory.
     }
+
+    public void loadExistingRules(ArrayList<String> businessrulesData){
+        for(String splitted : businessrulesData){
+            String[] s = splitted.split(",");
+            int id = Integer.parseInt(s[0]);
+            String name = s[1];
+            String status = s[2];
+            String type = s[3];
+            String operator = s[4];
+            String databaseID = s[5];
+            String value1 = s[6];
+            String value2 = s[7];
+            String column1 = s[8];
+            String column2 = s[9];
+            String table1 = s[10];
+            String table2 = s[11];
+            String databaseName= s[12];
+
+            if (type.equals("rangeRule")){
+                Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,databaseName);
+                br.setBrName(name);
+                br.setStatus(status);
+                br.setId(id);
+            }
+            if (type.equals("attributerule")){
+                Business_Rule br = makeBusinessAtrributeRule(value1,table1,column1,databaseName,operator);
+            }
+            if(type.equals("tupleRule")){
+                Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,databaseName);
+            }
+        }
+
+    }
+    public void targetSave(){}
 
     public ArrayList<String> getTables(String url){
         ArrayList<String> tables = new ArrayList<String>();
@@ -166,5 +202,4 @@ public class ClassController {
         }
         return tables;
     }
-    public void targetSave(){}
 }

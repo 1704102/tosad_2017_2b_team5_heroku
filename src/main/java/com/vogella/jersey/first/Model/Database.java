@@ -25,7 +25,7 @@ public class Database {
     }
     public Table getTable(String s){
         for(Table t : tables){
-            if(t.getName()==s){
+            if(t.getName().equals(s)){
                 return t;
             }
         }
