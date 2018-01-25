@@ -37,6 +37,7 @@ public class DatabaseResource{
 
             return "succes";
         }catch (Exception e){
+            e.printStackTrace();
             return "wrong input data";
         }
 
@@ -82,7 +83,7 @@ public class DatabaseResource{
         RepConnector con = new RepConnector();
         try {
             con.connect();
-            ArrayList<String> rules = con.getRules(url);
+            ArrayList<String> rules = cC.getRules(url);
             for (String rule : rules){
                 s.append(rule + "\n");
             }

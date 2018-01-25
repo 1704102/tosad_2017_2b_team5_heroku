@@ -181,9 +181,11 @@ public class ClassController {
             }
             if (type.equals("attributerule")){
                 Business_Rule br = makeBusinessAtrributeRule(value1,table1,column1,databaseName,operator);
+                br.setId(id);
             }
             if(type.equals("tupleRule")){
                 Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,databaseName);
+                br.setId(id);
             }
         }
 
@@ -200,5 +202,22 @@ public class ClassController {
             }
         }
         return tables;
+    }
+
+    public Database getDatabase(String name){
+        Database database = null;
+        for (Database data : databases){
+            if (data.getName().equals(name)){database = data;}
+        }
+        return database;
+    }
+
+    public ArrayList<String> getRules(String name){
+        ArrayList<String> rules = new ArrayList<String>();
+        Database database = getDatabase(name);
+        for (Business_Rule rule : database.getRules()){
+            rules.add(rule.toString() + "," + database.getName());
+        }
+        return rules;
     }
 }
