@@ -31,4 +31,8 @@ public class Database {
         }
         return null;
     }
+
+    public ArrayList<Table> getTables(){
+        return tables;
+    }
 }

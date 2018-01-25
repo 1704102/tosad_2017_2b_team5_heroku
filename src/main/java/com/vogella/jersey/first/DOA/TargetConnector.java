@@ -14,7 +14,6 @@ public class TargetConnector {
     private String service;
     private Connection conn;
     private final String QUERY_COLUMS = "SELECT * FROM USER_TAB_COLUMNS";
-    private final String QUERY_CONSTRAINT = "SELECT * FROM user_constraints";
 
     public TargetConnector(String url, String port, String service, String username, String password){
         this.url = url;

@@ -1,5 +1,9 @@
 package com.vogella.jersey.first.repDatabase;
 
+import com.vogella.jersey.first.Model.Business_Rule;
+
+import javax.json.Json;
+import javax.json.JsonObject;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,6 +94,26 @@ public class RepConnector {
                     t.execute(query);
             conn.commit();
         }catch (Exception e){}
+    }
+
+    public ArrayList<String> getRules(String url){
+        ArrayList<String> rules = new ArrayList<String>();
+        try {
+            connect();
+            ResultSet s = select(String.format("select * from BUSINESSRULE a, DATABASE_TARGET b where b.url = '%s' and a.database_target_id = b.id", url));
+            while (s.next()){
+                String[] data = {"id", "name", "status", "type", "operator", "database_target_id", "value1", "value2", "column1", "column2", "table1", "table2"};
+                StringBuilder str = new StringBuilder();
+                for (String dataT : data){
+                    str.append(s.getString(dataT) + ",");
+                }
+                str.append(url);
+                rules.add(str.toString());
+                System.out.println(str.toString());
+            }
+            disconnect();
+        }catch (Exception e){}
+        return rules;
     }
 }
 
