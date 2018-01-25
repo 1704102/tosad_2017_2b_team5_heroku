@@ -35,4 +35,8 @@ public class Database {
     public ArrayList<Table> getTables(){
         return tables;
     }
+
+    public ArrayList<Business_Rule> getRules(){
+        return b_Rules;
+    }
 }
