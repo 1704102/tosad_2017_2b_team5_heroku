@@ -18,7 +18,6 @@ public class ClassController {
         }
         databases.add(d);
         loadExistingRules(rules);
-        System.out.println("aa");
 
     }
 
