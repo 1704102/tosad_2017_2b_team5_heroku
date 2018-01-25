@@ -8,7 +8,7 @@ public class ClassController {
     private ArrayList<Database> databases= new ArrayList();
     public ClassController(){}
 
-    public void loadDatabase(String name, HashMap<String,ArrayList<String>> database){
+    public void loadDatabase(String name, HashMap<String,ArrayList<String>> database, ArrayList<String> rules){
         Database d = new Database(name);
         for ( String key : database.keySet() ) {
             d.addtable(key);
@@ -17,10 +17,12 @@ public class ClassController {
             }
         }
         databases.add(d);
+        loadExistingRules(rules);
+
     }
 
-    public Business_Rule makeBusinessRangeRule(int value1,int value2,  String table1, String Column1,String databaseName ){
-       boolean b =false;
+    public Business_Rule makeBusinessRangeRule(String value1,String value2,  String table1, String Column1,String databaseName ){
+        boolean b =false;
         for(Database d : databases){
             if(d.getName().equals(databaseName)){
                 Table table=d.getTable(table1);
@@ -33,7 +35,7 @@ public class ClassController {
         return null;
 
     }
-    public Business_Rule makeBusinessAtrributeRule(int value1,String table1, String column1,String databaseName, String operatorS){
+    public Business_Rule makeBusinessAtrributeRule(String value1,String table1, String column1,String databaseName, String operatorS){
         for(Database d : databases){
             Column column= null;
             Table table = null;
@@ -47,13 +49,13 @@ public class ClassController {
                     return null;
                 }
             }
-                Operator operator= new Operator(operatorS);
-                if(operator.getSucces()==false){
-                    return null;
-                }
+            Operator operator= new Operator(operatorS);
+            if(operator.getSucces()==false){
+                return null;
+            }
             Business_Rule br;
 
-            br = new Business_Rule(table, column, operator);
+            br = new Business_Rule(value1,table, column, operator);
             d.addBusinessRules(br);
             return br;
 
@@ -163,28 +165,40 @@ public class ClassController {
             String type = s[3];
             String operator = s[4];
             String databaseID = s[5];
-            int value1 = Integer.parseInt(s[6]);
-            int value2 = Integer.parseInt(s[7]);
+            String value1 = s[6];
+            String value2 = s[7];
             String column1 = s[8];
             String column2 = s[9];
             String table1 = s[10];
             String table2 = s[11];
-            String databaseName= s[11];
+            String databaseName= s[12];
 
-            if (type == "rangeRule"){
+            if (type.equals("rangeRule")){
                 Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,databaseName);
                 br.setBrName(name);
                 br.setStatus(status);
                 br.setId(id);
             }
-            if (type == "attributerule"){
+            if (type.equals("attributerule")){
                 Business_Rule br = makeBusinessAtrributeRule(value1,table1,column1,databaseName,operator);
             }
-            if(type == "tupleRule"){
+            if(type.equals("tupleRule")){
                 Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,databaseName);
             }
         }
 
     }
     public void targetSave(){}
+
+    public ArrayList<String> getTables(String url){
+        ArrayList<String> tables = new ArrayList<String>();
+        for(Database dat : databases){
+            if (dat.getName().equals(url)){
+                for(Table t : dat.getTables()){
+                    tables.add(t.getName());
+                }
+            }
+        }
+        return tables;
+    }
 }

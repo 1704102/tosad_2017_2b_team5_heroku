@@ -37,7 +37,7 @@ public class Table {
     }
     public Column getColumn(String name){
         for(Column c : columns){
-            if(c.getName()==name){
+            if(c.getName().equals(name)){
                 return c;
             }
         }

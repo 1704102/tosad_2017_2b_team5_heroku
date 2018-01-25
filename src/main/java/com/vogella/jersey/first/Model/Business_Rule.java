@@ -1,9 +1,14 @@
 package com.vogella.jersey.first.Model;
 
+import com.vogella.jersey.first.Model.Column;
+import com.vogella.jersey.first.Model.Operator;
+import com.vogella.jersey.first.Model.Table;
+
 public class Business_Rule {
+    private int id;
     private String brName;
     private Operator operator;
-    private int value1, value2,id;
+    private String value1, value2;
     private Table table1, table2;
     private Column column1, column2;
     private String type;
@@ -44,7 +49,7 @@ public class Business_Rule {
 
     private String Rulename;
     //This is the constructor for range rules
-    public Business_Rule(int value1, int value2,Table table1,Column column1){
+    public Business_Rule(String value1, String value2,Table table1,Column column1){
         this.value1=value1;
         this.value2=value2;
         this.table1=table1;
@@ -61,21 +66,22 @@ public class Business_Rule {
         type= "tupleRule";
     }
     //This is the constructor for attribute rules
-    public Business_Rule(Table table1, Column column1,Operator operator){
+    public Business_Rule(String value, Table table1, Column column1,Operator operator){
         this.table1=table1;
         this.column1=column1;
         this.operator=operator;
+        this.value1 = value;
         type="attributerule";
     }
     //A validationCheck in place for range rule to make sure value1 has a higher value then value2.
 // This prevents problems when creating the final business rules because they will not work when the values are in the opposite order
     private void validateRangeRule(){
-        if (value1>value2){
-            int rotatevalue;
-            rotatevalue= value1;
-            value1=value2;
-            value2=rotatevalue;
-        }
+//        if (value1>value2){
+//            int rotatevalue;
+//            rotatevalue= value1;
+//            value1=value2;
+//            value2=rotatevalue;
+//        }
     }
 
     public Operator getOperator() {
@@ -86,19 +92,19 @@ public class Business_Rule {
         this.operator = operator;
     }
 
-    public int getValue1() {
+    public String getValue1() {
         return value1;
     }
 
-    public void setValue1(int value1) {
+    public void setValue1(String value1) {
         this.value1 = value1;
     }
 
-    public int getValue2() {
+    public String getValue2() {
         return value2;
     }
 
-    public void setValue2(int value2) {
+    public void setValue2(String value2) {
         this.value2 = value2;
     }
 

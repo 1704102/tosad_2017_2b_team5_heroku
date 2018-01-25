@@ -1,28 +1,26 @@
 package com.vogella.jersey.first.repDatabase;
 
+import com.vogella.jersey.first.Model.Business_Rule;
+
+import javax.json.Json;
+import javax.json.JsonObject;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * Created by marti on 23-1-2018.
+ */
 public class RepConnector {
 
-    private String url;
-    private String port;
-    private String username;
-    private String password;
-    private String service;
+    private String url = "ondora02.hu.nl";
+    private String port = "8521";
+    private String username = "tosad_2017_2b_team5";
+    private String password = "tosad_2017_2b_team5";
+    private String service = "cursus02.hu.nl";
     private Connection conn;
-    private final String QUERY_COLUMS = "SELECT * FROM USER_TAB_COLUMNS";
-    private final String QUERY_CONSTRAINT = "SELECT * FROM user_constraints";
 
-    public RepConnector(String url, String port, String service, String username, String password){
-        this.url = url;
-        this.port = port;
-        this.username = username;
-        this.password = password;
-        this.service = service;
-        connect();
+    public RepConnector(){
     }
 
 
@@ -31,30 +29,46 @@ public class RepConnector {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@//"+ url +":"+ port + "/" + service,username, password);
-            System.out.println("connection succesfull");
         } catch (Exception e) {
-            System.out.println("connection failed");
             e.printStackTrace();
         }
     }
 
 
-    public HashMap<String,ArrayList<String>> GetDatabase(){
-        connect();
-        HashMap<String,ArrayList<String>> columns = new HashMap<String, ArrayList<String>>();
-        ResultSet s = select(QUERY_COLUMS);
+    public String login(String username, String password){
+        String id = "0";
         try {
-            while (s.next()) {
-                if(columns.get(s.getString("table_name")) == null){
-                    columns.put(s.getString("table_name"), new ArrayList<String>());
-                }
-                columns.get(s.getString("table_name")).add(s.getString("column_name"));
+            connect();
+            String query = String.format("select * from inlog where username = '%s' and password = '%s'", username, password);
+            ResultSet s = select(query);
+
+            while (s.next()){
+                id = s.getString("id");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            disconnect();
+        }catch (Exception e){}
+        return id;
+    }
+
+    public void addDatabase(String url, String port, String service, String username, String password, int id) {
+        try {
+            connect();
+            ResultSet s = select(String.format("select * from database_target where url = '%s'", url));
+            int count = 0;
+            while (s.next()) {
+                count++;
+            }
+            if (count != 1) {
+                insert(String.format("insert into database_target(url,port,service,username,password) values ('%s', '%s', '%s', '%s', '%s')", url, port, service, username, password));
+                ResultSet s1 = select(String.format("select * from database_target where url = '%s'", url));
+                while (s1.next()){
+                    insert(String.format("insert into klant_database_target(database_target_id, inlogid) values (%d, %d)",s1.getInt("id"),id));
+                }
+                System.out.println("added database");
+            }
+            disconnect();
+        } catch (Exception e) {
         }
-        disconnect();
-        return columns;
     }
 
     public void disconnect() {
@@ -73,4 +87,34 @@ public class RepConnector {
         }catch (Exception e){}
         return s;
     }
+
+    public void insert(String query){
+        try {
+            Statement t = conn.createStatement();
+                    t.execute(query);
+            conn.commit();
+        }catch (Exception e){}
+    }
+
+    public ArrayList<String> getRules(String url){
+        ArrayList<String> rules = new ArrayList<String>();
+        try {
+            connect();
+            ResultSet s = select(String.format("select * from BUSINESSRULE a, DATABASE_TARGET b where b.url = '%s' and a.database_target_id = b.id", url));
+            while (s.next()){
+                String[] data = {"id", "name", "status", "type", "operator", "database_target_id", "value1", "value2", "column1", "column2", "table1", "table2"};
+                StringBuilder str = new StringBuilder();
+                for (String dataT : data){
+                    str.append(s.getString(dataT) + ",");
+                }
+                str.append(url);
+                rules.add(str.toString());
+                System.out.println(str.toString());
+            }
+            disconnect();
+        }catch (Exception e){}
+        return rules;
+    }
 }
+
+
