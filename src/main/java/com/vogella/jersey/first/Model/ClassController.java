@@ -18,7 +18,7 @@ public class ClassController {
         }
         databases.add(d);
         loadExistingRules(rules);
-
+        System.out.println("aa");
     }
 
     public Business_Rule makeBusinessRangeRule(String value1,String value2,  String table1, String Column1,String databaseName ){
@@ -189,6 +189,32 @@ public class ClassController {
             }
         }
 
+    }
+
+    public void crateRule(String rule){
+        String[] s = rule.split(",");
+        String type = s[0];
+        String operator = s[1];
+        String value1 = s[2];
+        String value2 = s[3];
+        String column1 = s[4];
+        String column2 = s[5];
+        String table1 = s[6];
+        String table2 = s[7];
+        String url= s[8];
+
+        if (type.equals("rangeRule")){
+            Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,url);
+            br.setStatus("new");
+        }
+        if (type.equals("attributerule")){
+            Business_Rule br = makeBusinessAtrributeRule(value1,table1,column1,url,operator);
+            br.setStatus("new");
+        }
+        if(type.equals("tupleRule")){
+            Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,url);
+            br.setStatus("new");
+        }
     }
     public void targetSave(){}
 

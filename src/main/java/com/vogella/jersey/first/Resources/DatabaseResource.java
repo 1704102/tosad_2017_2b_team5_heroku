@@ -91,4 +91,21 @@ public class DatabaseResource{
         }catch (Exception e){}
         return s.toString();
     }
+
+    @GET
+    @Path("/rule/save")
+    @Produces(MediaType.APPLICATION_JSON)
+    public  String saveRule(@QueryParam("url")  String url,@QueryParam("type")  String type,@QueryParam("operator")
+            String operator,@QueryParam("value1")  String value1,@QueryParam("value2")  String value2,@QueryParam("column1")
+            String column1,@QueryParam("column2")  String column2,@QueryParam("table1")  String table1,@QueryParam("table2")  String table2){
+        RepConnector con = new RepConnector();
+        try {
+            con.connect();
+            String rule = type + "," + operator + "," + value1 + "," + value2 + "," + column1 + "," + column2 + "," + table1 + "," + table2 + "," + url;
+            cC.crateRule(rule);
+            con.insert(String.format("insert into Businessrule (status, type, operator, database_target_id, value1, value2, column1, column2,table1, table2) values ('new' ,'%s','%s',5,'%s','%s','%s','%s','%s','%s')",type, operator, value1, value2, column1, column2,table1, table2));
+            con.disconnect();
+        }catch (Exception e){return "false";}
+        return "succes";
+    }
 }
