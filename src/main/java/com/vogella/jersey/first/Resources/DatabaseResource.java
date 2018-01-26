@@ -120,4 +120,35 @@ public class DatabaseResource{
         }catch (Exception e){return "false";}
         return "succes";
     }
+
+    public static void makeRule(ArrayList<String> arr){
+        String type = arr.get(0);
+        if (type.equals("rangeRule")){
+
+            String value1 = arr.get(1);
+            String value2 = arr.get(2);
+            String table1 = arr.get(3);
+            String column1 = arr.get(4);
+            String bName = arr.get(5);
+
+            String sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" between "+value1+" and " +value2+" )" ;
+        }
+        if (type.equals("tupleRule")){
+            String operator = arr.get(1);
+            String table1 = arr.get(2);
+            String column1 = arr.get(3);
+            String column2 = arr.get(4);
+            String bName = arr.get(5);
+            String sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" operator "+column2+")" ;
+        }
+        if (type.equals("attributerule") ){
+            String value1 = arr.get(1);
+            String operator = arr.get(2);
+            String table1 = arr.get(3);
+            String column1 = arr.get(4);
+            String bName = arr.get(5);
+            String sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" operator "+value1+")" ;
+        }
+
+    }
 }
