@@ -246,4 +246,14 @@ public class ClassController {
         }
         return rules;
     }
+
+    public ArrayList<String> getColumns(String url, String table) {
+        ArrayList<String> out = new ArrayList<String>();
+        Database database = getDatabase(url);
+        ArrayList<Column> columns = database.getTable(table).getColumns();
+        for (Column column : columns){
+            out.add(column.getName());
+        }
+        return out;
+    }
 }

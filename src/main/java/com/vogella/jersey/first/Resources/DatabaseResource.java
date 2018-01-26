@@ -56,6 +56,18 @@ public class DatabaseResource{
     }
 
     @GET
+    @Path("/columns")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getTables(@QueryParam("url")  String url,@QueryParam("table")  String table){
+        StringBuilder sB = new StringBuilder();
+        ArrayList<String> columns = cC.getColumns(url, table);
+        for(String column : columns){
+            sB.append(column + "\n");
+        }
+        return sB.toString();
+    }
+
+    @GET
     @Path("/databases")
     @Produces(MediaType.APPLICATION_JSON)
     public String getDatabases(@QueryParam("url")  int id){
