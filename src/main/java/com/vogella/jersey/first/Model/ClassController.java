@@ -259,8 +259,10 @@ public class ClassController {
         return out;
     }
 
-    public void commitRule(Business_Rule br){
+    public void commitRule(int brID, String databasename){
         ArrayList<String> values= new ArrayList();
+        Database d = getDatabase(databasename);
+        Business_Rule br = d.getBusiness_Rule(brID);
         String type = br.getType();
         values.add(type);
 
