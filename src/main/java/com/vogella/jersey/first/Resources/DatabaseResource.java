@@ -28,10 +28,10 @@ public class DatabaseResource{
             }
             RepConnector rC = new RepConnector();
             rC.addDatabase(url,port,service,username,password,id);
-            //TargetConnector c = new TargetConnector(url, port, service, username, password);
+            TargetConnector c = new TargetConnector(url, port, service, username, password);
 
 
-           TargetConnector c = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+          // TargetConnector c = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
 
             cC.loadDatabase(url, c.GetDatabase(), rC.getRules(url));
 

@@ -61,10 +61,14 @@ public class RepConnector {
             }
 
             ResultSet s1 = select(String.format("select * from database_target a, KLANT_DATABASE_TARGET b where a.url = '%s' and a.id = b.database_target_id and b.INLOGID = %d", url, id));
-
-            if (getResLength(s1) < 0){
-                insert(String.format("insert into klant_database_target(database_target_id, inlogid) values (%d, %d)",s1.getInt("a.id"),id));
+            ResultSet s2 = select(String.format("select * from database_target where url = '%s'", url));
+            while (s2.next()){
+                if (getResLength(s1) < 1){
+                    int idD = s2.getInt("id");
+                    insert(String.format("insert into klant_database_target(database_target_id, inlogid) values (%d, %d)",idD,id));
+                }
             }
+
 
             disconnect();
         } catch (Exception e) {
