@@ -84,6 +84,7 @@ public class DatabaseResource{
             }
             con.disconnect();
         }catch (Exception e){}
+        System.out.println(s.toString());
         return s.toString();
     }
 
