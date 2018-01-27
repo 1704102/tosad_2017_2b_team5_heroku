@@ -38,7 +38,7 @@ public class DatabaseResource{
             return "succes";
         }catch (Exception e){
             e.printStackTrace();
-            return "wrong input data";
+            return "wrong";
         }
 
     }
