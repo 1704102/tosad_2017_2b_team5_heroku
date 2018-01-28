@@ -150,5 +150,14 @@ public class DatabaseResource{
             String sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" operator "+value1+")" ;
         }
 
+        // sql code hier
+        RepConnector con = new RepConnector();
+        try {
+            String updateRule = "update businessrule set status = \'complete\' where name = "+ arr.get(5);
+            con.connect();
+            con.insert(updateRule);
+            con.disconnect();
+        }catch (Exception e){}
+
     }
 }
