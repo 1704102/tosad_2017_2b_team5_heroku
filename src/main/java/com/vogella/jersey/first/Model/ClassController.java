@@ -1,5 +1,7 @@
 package com.vogella.jersey.first.Model;
 
+import com.vogella.jersey.first.Resources.ResourceInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,6 +9,7 @@ import java.util.HashMap;
 public class ClassController {
     private ArrayList<Database> databases= new ArrayList();
     public ClassController(){}
+    private ResourceInterface resourceInterface= new ResourceInterface();
 
     public void loadDatabase(String name, HashMap<String,ArrayList<String>> database, ArrayList<String> rules){
         Database d = new Database(name);
@@ -255,5 +258,38 @@ public class ClassController {
             out.add(column.getName());
         }
         return out;
+    }
+
+    public void commitRule(int brID, String databasename){
+        ArrayList<String> values= new ArrayList();
+        Database d = getDatabase(databasename);
+        Business_Rule br = d.getBusiness_Rule(brID);
+        String type = br.getType();
+        values.add(type);
+
+        if (type.equals("rangeRule")){
+            values.add(br.getValue1());
+            values.add(br.getValue2());
+            values.add(br.getTable1().getName());
+            values.add(br.getColumn1().getName());
+            values.add(br.getBrName());
+
+        }
+        if (type.equals("tupleRule")){
+            values.add(br.getOperator().getOperator());
+            values.add(br.getTable1().getName());
+            values.add(br.getColumn1().getName());
+            values.add(br.getColumn2().getName());
+            values.add(br.getBrName());
+
+        }
+        if (type.equals("attributerule")){
+            values.add(br.getValue1());
+            values.add(br.getOperator().getOperator());
+            values.add(br.getTable1().getName());
+            values.add(br.getColumn1().getName());
+            values.add(br.getBrName());
+        }
+        resourceInterface.SaveRule(values);
     }
 }
