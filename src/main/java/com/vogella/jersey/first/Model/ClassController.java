@@ -1,5 +1,7 @@
 package com.vogella.jersey.first.Model;
 
+import com.vogella.jersey.first.Resources.ResourceInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import  com.vogella.jersey.first.Resources.ResourceInterface;

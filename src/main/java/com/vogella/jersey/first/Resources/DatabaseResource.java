@@ -28,17 +28,17 @@ public class DatabaseResource{
             }
             RepConnector rC = new RepConnector();
             rC.addDatabase(url,port,service,username,password,id);
-            //TargetConnector c = new TargetConnector(url, port, service, username, password);
+            TargetConnector c = new TargetConnector(url, port, service, username, password);
 
 
-           TargetConnector c = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+          // TargetConnector c = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
 
             cC.loadDatabase(url, c.GetDatabase(), rC.getRules(url));
 
             return "succes";
         }catch (Exception e){
             e.printStackTrace();
-            return "wrong input data";
+            return "wrong";
         }
 
     }
@@ -84,6 +84,7 @@ public class DatabaseResource{
             }
             con.disconnect();
         }catch (Exception e){}
+        System.out.println(s.toString());
         return s.toString();
     }
 
@@ -121,6 +122,10 @@ public class DatabaseResource{
         return "succes";
     }
 
+
+    @GET
+    @Path("")
+    @Produces(MediaType.APPLICATION_JSON)
     public static void makeRule(ArrayList<String> arr){
         String type = arr.get(0);
         String sql ="" ;
@@ -153,13 +158,13 @@ public class DatabaseResource{
 
         TargetConnector c = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
         try{
-        c.connect();
-        c.select(sql);
-        c.disconnect();}
+            c.connect();
+            c.select(sql);
+            c.disconnect();}
         catch(Exception e){}
         RepConnector con = new RepConnector();
         try {
-            String updateRule = "update businessrule set status = \'complete\' where name = "+ arr.get(5);
+            String updateRule = "update businessrule set status = \'enabled\' where name = "+ arr.get(5);
             con.connect();
             con.insert(updateRule);
             con.disconnect();

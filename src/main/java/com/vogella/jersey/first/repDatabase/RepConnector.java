@@ -54,18 +54,22 @@ public class RepConnector {
         try {
             connect();
             ResultSet s = select(String.format("select * from database_target where url = '%s'", url));
-            int count = 0;
-            while (s.next()) {
-                count++;
-            }
-            if (count != 1) {
+
+            if (getResLength(s) < 1) {
                 insert(String.format("insert into database_target(url,port,service,username,password) values ('%s', '%s', '%s', '%s', '%s')", url, port, service, username, password));
-                ResultSet s1 = select(String.format("select * from database_target where url = '%s'", url));
-                while (s1.next()){
-                    insert(String.format("insert into klant_database_target(database_target_id, inlogid) values (%d, %d)",s1.getInt("id"),id));
-                }
                 System.out.println("added database");
             }
+
+            ResultSet s1 = select(String.format("select * from database_target a, KLANT_DATABASE_TARGET b where a.url = '%s' and a.id = b.database_target_id and b.INLOGID = %d", url, id));
+            ResultSet s2 = select(String.format("select * from database_target where url = '%s'", url));
+            while (s2.next()){
+                if (getResLength(s1) < 1){
+                    int idD = s2.getInt("id");
+                    insert(String.format("insert into klant_database_target(database_target_id, inlogid) values (%d, %d)",idD,id));
+                }
+            }
+
+
             disconnect();
         } catch (Exception e) {
         }
@@ -96,6 +100,15 @@ public class RepConnector {
         }catch (Exception e){}
     }
 
+    public int getResLength(ResultSet s){
+        int count = 0;
+        try {
+            while (s.next()) {
+                count++;
+            }
+        }catch (Exception e){}
+        return count;
+    }
     public ArrayList<String> getRules(String url){
         ArrayList<String> rules = new ArrayList<String>();
         try {

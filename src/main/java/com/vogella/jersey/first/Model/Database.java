@@ -39,6 +39,7 @@ public class Database {
     public ArrayList<Business_Rule> getRules(){
         return b_Rules;
     }
+
     public Business_Rule getBusiness_Rule(int id){
         for(Business_Rule b : b_Rules){
             if (id== b.getId()) {
