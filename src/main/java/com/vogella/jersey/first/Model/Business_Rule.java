@@ -6,6 +6,7 @@ import com.vogella.jersey.first.Model.Table;
 
 public class Business_Rule {
     private int id;
+    private String name;
     private String brName;
     private Operator operator;
     private String value1, value2;
@@ -49,28 +50,37 @@ public class Business_Rule {
 
     private String Rulename;
     //This is the constructor for range rules
-    public Business_Rule(String value1, String value2,Table table1,Column column1){
+    public Business_Rule(String value1, String value2,Table table1,Column column1, int id, String name, String status){
         this.value1=value1;
         this.value2=value2;
         this.table1=table1;
         this.column1=column1;
+        this.id = id;
+        this.name = name;
+        this.status = status;
         type="rangeRule";
         validateRangeRule();
     }
     //This is the constructor for tuple rules
-    public Business_Rule(Table table1, Column column1, Column column2, Operator operator){
+    public Business_Rule(Table table1, Column column1, Column column2, Operator operator, int id, String name, String status){
         this.table1 = table1;
         this.column1 = column1;
         this.column2 = column2;
         this.operator = operator;
+        this.id = id;
+        this.name = name;
+        this.status = status;
         type= "tupleRule";
     }
     //This is the constructor for attribute rules
-    public Business_Rule(String value, Table table1, Column column1,Operator operator){
+    public Business_Rule(String value, Table table1, Column column1,Operator operator, int id, String name, String status){
         this.table1=table1;
         this.column1=column1;
         this.operator=operator;
         this.value1 = value;
+        this.id = id;
+        this.name = name;
+        this.status = status;
         type="attributerule";
     }
     //A validationCheck in place for range rule to make sure value1 has a higher value then value2.

@@ -24,13 +24,13 @@ public class ClassController {
         System.out.println("aa");
     }
 
-    public Business_Rule makeBusinessRangeRule(String value1,String value2,  String table1, String Column1,String databaseName ){
+    public Business_Rule makeBusinessRangeRule(String value1,String value2,  String table1, String Column1,String databaseName, int id, String name, String status ){
         boolean b =false;
         for(Database d : databases){
             if(d.getName().equals(databaseName)){
                 Table table=d.getTable(table1);
                 Column column =table.getColumn(Column1);
-                Business_Rule br = new Business_Rule(value1, value2,table, column);
+                Business_Rule br = new Business_Rule(value1, value2,table, column, id, name, status);
                 d.addBusinessRules(br);
                 return(br);
             }
@@ -38,7 +38,7 @@ public class ClassController {
         return null;
 
     }
-    public Business_Rule makeBusinessAtrributeRule(String value1,String table1, String column1,String databaseName, String operatorS){
+    public Business_Rule makeBusinessAtrributeRule(String value1,String table1, String column1,String databaseName, String operatorS, int id, String name, String status){
         for(Database d : databases){
             Column column= null;
             Table table = null;
@@ -58,7 +58,7 @@ public class ClassController {
             }
             Business_Rule br;
 
-            br = new Business_Rule(value1,table, column, operator);
+            br = new Business_Rule(value1,table, column, operator, id, name, status);
             d.addBusinessRules(br);
             return br;
 
@@ -66,7 +66,7 @@ public class ClassController {
 
         return null;
     }
-    public Business_Rule makeTupleCompareRule(String table1s, String column1s, String column2s, String operators, String databaseName){
+    public Business_Rule makeTupleCompareRule(String table1s, String column1s, String column2s, String operators, String databaseName, int id, String name, String status){
         for(Database d : databases){
             Column column1= null;
             Column column2= null;
@@ -90,7 +90,7 @@ public class ClassController {
                     return null;
                 }
                 Business_Rule br;
-                br= new Business_Rule(table, column1, column2, operator);
+                br= new Business_Rule(table, column1, column2, operator, id, name, status);
                 d.addBusinessRules(br);
                 return br;
             }
@@ -177,24 +177,24 @@ public class ClassController {
             String databaseName= s[12];
 
             if (type.equals("rangeRule")){
-                Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,databaseName);
+                Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,databaseName,id, name,status);
                 br.setBrName(name);
                 br.setStatus(status);
                 br.setId(id);
             }
             if (type.equals("attributerule")){
-                Business_Rule br = makeBusinessAtrributeRule(value1,table1,column1,databaseName,operator);
+                Business_Rule br = makeBusinessAtrributeRule(value1,table1,column1,databaseName,operator,id, name,status);
                 br.setId(id);
             }
             if(type.equals("tupleRule")){
-                Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,databaseName);
+                Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,databaseName,id, name,status);
                 br.setId(id);
             }
         }
 
     }
 
-    public void crateRule(String rule){
+    public void crateRule(String rule, int id, String name, String status){
         String[] s = rule.split(",");
         String type = s[0];
         String operator = s[1];
@@ -207,16 +207,13 @@ public class ClassController {
         String url= s[8];
 
         if (type.equals("rangeRule")){
-            Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,url);
-            br.setStatus("new");
+            Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,url, id, name, status);
         }
         if (type.equals("attributerule")){
-            Business_Rule br = makeBusinessAtrributeRule(value1,table1,column1,url,operator);
-            br.setStatus("new");
+            Business_Rule br = makeBusinessAtrributeRule(value1,table1,column1,url,operator, id, name, status);
         }
         if(type.equals("tupleRule")){
-            Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,url);
-            br.setStatus("new");
+            Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,url, id, name, status);
         }
     }
     public void targetSave(){}

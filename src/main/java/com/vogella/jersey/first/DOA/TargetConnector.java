@@ -72,4 +72,12 @@ public class TargetConnector {
         }catch (Exception e){}
         return s;
     }
+
+    public void insert(String query){
+        try {
+            Statement t = conn.createStatement();
+            t.execute(query);
+            conn.commit();
+        }catch (Exception e){}
+    }
 }

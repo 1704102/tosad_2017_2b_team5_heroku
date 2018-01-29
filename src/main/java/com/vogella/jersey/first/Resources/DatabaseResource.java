@@ -115,9 +115,11 @@ public class DatabaseResource{
         try {
             con.connect();
             String rule = type + "," + operator + "," + value1 + "," + value2 + "," + column1 + "," + column2 + "," + table1 + "," + table2 + "," + url;
-            cC.crateRule(rule);
             con.insert(String.format("insert into Businessrule (status, type, operator, database_target_id, value1, value2, column1, column2,table1, table2) values ('new' ,'%s','%s',5,'%s','%s','%s','%s','%s','%s')",type, operator, value1, value2, column1, column2,table1, table2));
-            con.disconnect();
+            ResultSet s = con.select(" select * from businessrule where id = (select max(id) from BUSINESSRULE)");
+            while (s.next()){
+                cC.crateRule(rule, s.getInt("id"), s.getString("name"), s.getString("status"));
+            }
         }catch (Exception e){return "false";}
         return "succes";
     }
@@ -159,7 +161,7 @@ public class DatabaseResource{
         TargetConnector c = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
         try{
             c.connect();
-            c.select(sql);
+            c.insert(sql);
             c.disconnect();}
         catch(Exception e){}
         RepConnector con = new RepConnector();
