@@ -194,7 +194,11 @@ public class ClassController {
         }
 
     }
-
+    public void createRules(ArrayList<String> rules){
+        for(String s : rules){
+            crateRule(s);
+        }
+    }
     public void crateRule(String rule){
         String[] s = rule.split(",");
         String type = s[0];
@@ -260,6 +264,16 @@ public class ClassController {
         }
         return out;
     }
+    public void commitRules(String databasename){
+        Database d =  getDatabase(databasename);
+        for ( Business_Rule b: d.getRules()){
+            String s =b.getStatus();
+            if(s.equals("ready for generation")) commitRule(b.getId(),databasename);
+        }
+
+
+
+    }
 
     public void commitRule(int brID, String databasename){
         ArrayList<String> values= new ArrayList();
@@ -292,5 +306,6 @@ public class ClassController {
             values.add(br.getBrName());
         }
         resourceInterface.SaveRule(values);
+        br.setStatus("enabled");
     }
 }

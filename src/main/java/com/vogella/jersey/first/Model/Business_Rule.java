@@ -55,6 +55,7 @@ public class Business_Rule {
         this.table1=table1;
         this.column1=column1;
         type="rangeRule";
+        status = "new";
         validateRangeRule();
     }
     //This is the constructor for tuple rules
@@ -64,6 +65,7 @@ public class Business_Rule {
         this.column2 = column2;
         this.operator = operator;
         type= "tupleRule";
+        status = "new";
     }
     //This is the constructor for attribute rules
     public Business_Rule(String value, Table table1, Column column1,Operator operator){
@@ -72,16 +74,19 @@ public class Business_Rule {
         this.operator=operator;
         this.value1 = value;
         type="attributerule";
+        status = "new";
     }
     //A validationCheck in place for range rule to make sure value1 has a higher value then value2.
 // This prevents problems when creating the final business rules because they will not work when the values are in the opposite order
     private void validateRangeRule(){
-//        if (value1>value2){
-//            int rotatevalue;
-//            rotatevalue= value1;
-//            value1=value2;
-//            value2=rotatevalue;
-//        }
+        int value1c = Integer.parseInt(value1);
+        int value2c = Integer.parseInt(value2);
+        if (value1c>value2c){
+            String rotatevalue;
+            rotatevalue= value1;
+            value1=value2;
+            value2=rotatevalue;
+        }
     }
 
     public Operator getOperator() {
