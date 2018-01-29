@@ -7,7 +7,6 @@ import com.vogella.jersey.first.Model.Table;
 public class Business_Rule {
     private int id;
     private String name;
-    private String brName;
     private Operator operator;
     private String value1, value2;
     private Table table1, table2;
@@ -24,12 +23,12 @@ public class Business_Rule {
     }
 
     public String getBrName() {
-        return brName;
+        return name;
 
     }
 
     public void setBrName(String brName) {
-        this.brName = brName;
+        this.name = brName;
     }
 
     public String getStatus() {
@@ -168,6 +167,6 @@ public class Business_Rule {
         if (this.column2 != null)column2 = this.column2.getName();
         if (this.table1 != null)table1 = this.table1.getName();
         if (this.table2 != null)table2 = this.table2.getName();
-        return id + "," + brName + "," + status + "," + type + "," + operator.getOperator() + "," + value1 + "," + value2 + "," + column1 + "," + column2 + "," + table1 + "," + table2;
+        return id + "," + name + "," + status + "," + type + "," + operator.getOperator() + "," + value1 + "," + value2 + "," + column1 + "," + column2 + "," + table1 + "," + table2;
     }
 }
