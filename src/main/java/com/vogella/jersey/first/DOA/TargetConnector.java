@@ -96,7 +96,7 @@ public class TargetConnector {
             String column1 = arr.get(4);
             String bName = arr.get(5);
 
-            sql = "alter table " + table1 + " add constraint " + bName + " check( " + table1 + "." + column1 + " between " + value1 + " and " + value2 + " )ENABLE NOVALIDATE";
+            sql = "alter table " + table1 + " add constraint " + bName + " check(" + column1 + " between " + value1 + " and " + value2 + " )ENABLE NOVALIDATE";
         }
         if (type.equals("tupleRule")) {
             String operator = arr.get(1);
@@ -104,7 +104,7 @@ public class TargetConnector {
             String column1 = arr.get(3);
             String column2 = arr.get(4);
             String bName = arr.get(5);
-            sql = "alter table " + table1 + " add constraint " + bName + " check( " + table1 + "." + column1 + " "+operator +" " + column2 + ")ENABLE NOVALIDATE";
+            sql = "alter table " + table1 + " add constraint " + bName + " check("+ column1 + " "+operator +" " + column2 + ")ENABLE NOVALIDATE";
         }
         if (type.equals("attributerule")) {
             String value1 = arr.get(1);
