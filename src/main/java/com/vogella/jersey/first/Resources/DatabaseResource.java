@@ -73,6 +73,9 @@ public class DatabaseResource{
     public String getDatabases(@QueryParam("url")  int id){
         StringBuilder s = new StringBuilder();
         RepConnector con = new RepConnector();
+        if(cC == null) {
+            cC = new ClassController();
+        }
         try {
             con.connect();
             ResultSet set = con.select(String.format("select * from klant_database_target, database_target where inlogid = %d and database_target_id = id", id));
@@ -80,7 +83,6 @@ public class DatabaseResource{
                 s.append(set.getString("url") + ",");
                 s.append(set.getString("port") + ",");
                 s.append(set.getString("service"));
-                con.addDatabase(set.getString("url"),set.getString("port"),set.getString("service"),set.getString("username"),set.getString("password"),id);
                 TargetConnector c = new TargetConnector(set.getString("url"),set.getString("port"),set.getString("service"),set.getString("username"),set.getString("password"));
                 cC.loadDatabase(set.getString("url"), c.GetDatabase(), con.getRules(set.getString("url")));
             }
