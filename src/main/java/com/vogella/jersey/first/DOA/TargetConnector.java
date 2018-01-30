@@ -136,7 +136,9 @@ public class TargetConnector {
 
     public void changeState(String table, String status, String name){
         connect();
-        String sql = String.format("alter table %s %s constraint %s",table, status.substring(0, status.length()-1), name);
+        String s = "";
+        if (status.equals("enabled")) s = "NOVALIDATE";
+        String sql = String.format("alter table %s %s %s constraint %s",table,s , status.substring(0, status.length()-1), name);
         insert(sql);
         disconnect();
     }

@@ -97,7 +97,7 @@ public class RepConnector {
         try {
             Statement t = conn.createStatement();
                     t.execute(query);
-            conn.commit();
+           // conn.commit();
         }catch (Exception e){e.printStackTrace();}
     }
 
