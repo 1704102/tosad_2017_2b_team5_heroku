@@ -1,6 +1,8 @@
 package com.vogella.jersey.first.Model;
 
+import com.vogella.jersey.first.DOA.TargetConnector;
 import com.vogella.jersey.first.Resources.ResourceInterface;
+import com.vogella.jersey.first.repDatabase.RepConnector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -304,6 +306,8 @@ public class ClassController {
             values.add(br.getColumn1().getName());
             values.add(br.getBrName());
         }
-        resourceInterface.SaveRule(values);
+        TargetConnector connector = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+        connector.makeRule(values);
     }
+
 }
