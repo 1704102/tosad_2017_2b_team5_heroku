@@ -159,14 +159,15 @@ public class RepConnector {
     }
 
     public String getLastRule(){
-        ResultSet s = select(" select * from businessrule where id = (select max(id) from BUSINESSRULE)");
         StringBuilder sB = new StringBuilder();
         try {
             connect();
+            ResultSet s = select(" select * from businessrule where id = (select max(id) from BUSINESSRULE)");
             while (s.next()) {
                 sB.append(s.getInt("id") + ",");
                 sB.append(s.getInt("name"));
             }
+            disconnect();
         }catch (Exception e){}
         return s.toString();
     }
