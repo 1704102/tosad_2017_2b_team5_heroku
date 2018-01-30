@@ -40,7 +40,7 @@ public class TargetConnector {
     }
 
 
-    public HashMap<String, ArrayList<String>> GetDatabase() {
+    public HashMap<String, ArrayList<String>> GetDatabaseData() {
         connect();
         HashMap<String, ArrayList<String>> columns = new HashMap<String, ArrayList<String>>();
         ResultSet s = select(QUERY_COLUMS);

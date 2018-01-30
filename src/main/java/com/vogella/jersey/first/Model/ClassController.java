@@ -1,9 +1,11 @@
 package com.vogella.jersey.first.Model;
 
+
 import com.vogella.jersey.first.DOA.TargetConnector;
 import com.vogella.jersey.first.Resources.ResourceInterface;
 import com.vogella.jersey.first.repDatabase.RepConnector;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,19 +14,103 @@ public class ClassController {
     private ArrayList<Database> databases= new ArrayList();
     public ClassController(){}
     private ResourceInterface resourceInterface= new ResourceInterface();
+    private RepConnector repConnector = new RepConnector();
 
-    public void loadDatabase(String name, String port, String service, String username, String password, HashMap<String,ArrayList<String>> database, ArrayList<String> rules){
+    public String loadDatabase(String name, String port, String service, String username, String password, int id){
         Database d = new Database(name, port, service, username, password);
-        for ( String key : database.keySet() ) {
+        HashMap<String, ArrayList<String>> databasesH = d.getTargetConnector().GetDatabaseData();
+
+        for ( String key : databasesH.keySet() ) {
             d.addtable(key);
-            for(int i = 0; i < database.get(key).size(); i++){
-                d.getTable(key).addColumn(database.get(key).get(i));
+            for(int i = 0; i < databasesH.get(key).size(); i++){
+                d.getTable(key).addColumn(databasesH.get(key).get(i));
             }
         }
         databases.add(d);
-        loadExistingRules(rules);
-        System.out.println("aa");
+        loadExistingRules(repConnector.getRules(name));
+        repConnector.addDatabase(name,port,service,username,password,id);
+
+        return "succes";
     }
+
+    // facade
+
+    public String getTablesString(String url){
+        StringBuilder sB = new StringBuilder();
+        ArrayList<String> tables = getTables(url);
+        for(String table : tables){
+            sB.append(table + "\n");
+        }
+        return sB.toString();
+    }
+
+    public String getColumnString(String url, String table){
+        StringBuilder sB = new StringBuilder();
+        ArrayList<String> columns = getColumns(url, table);
+        for(String column : columns){
+            sB.append(column + "\n");
+        }
+        return sB.toString();
+    }
+
+    public String getDatabasesString(int id){
+        StringBuilder s = new StringBuilder();
+        ArrayList<String> databases = repConnector.getDatabases(id);
+        for(String database: databases){
+
+            String[] split = database.split(",");
+            String url = split[0];
+            String port = split[1];
+            String service = split[2];
+            String username = split[3];
+            String password = split[4];
+
+            s.append(url+ "," + port + "," + service + "\n");
+            loadDatabase(url, port,service,username,password,id);
+        }
+        return s.toString();
+    }
+
+    public String getRulesString(String url){
+        StringBuilder s = new StringBuilder();
+        ArrayList<String> rules = getRules(url);
+        for (String rule : rules){
+            s.append(rule + "\n");
+        }
+        return s.toString();
+    }
+
+    public ArrayList<String> getRules(String name){
+        ArrayList<String> rules = new ArrayList<String>();
+        Database database = getDatabase(name);
+        for (Business_Rule rule : database.getRules()){
+            rules.add(rule.toString() + "," + database.getName());
+        }
+        return rules;
+    }
+
+    public String saveRule(String url, String type,String operator, String value1, String value2, String column1, String column2, String table1, String table2){
+        repConnector.saveRule(url,type,operator,value1,value2,column1,column2,table1,table2);
+
+        String[] data = repConnector.getLastRule().split(",");
+        crateRule(Integer.parseInt(data[0]), data[1], "new", url,type,operator,value1,value2,column1,column2,table1,table2);
+
+        return "succes";
+    }
+
+    public String alterRule(String url, String name, String status){
+        editBusinessRule(url, name, status);
+
+        if (status.equals("enabled") || status.equals("disabled")){
+            String table = getDatabase(url).getBusiness_Rule(name).getTable1().getName();
+            getDatabase(url).getTargetConnector().changeState(table, status, name);
+        }
+        repConnector.alterRule(url,name,status);
+        System.out.println("aa");
+        return "";
+    }
+
+    //end facade
 
     public Business_Rule makeBusinessRangeRule(String value1,String value2,  String table1, String Column1,String databaseName, int id, String name, String status ){
         boolean b =false;
@@ -196,17 +282,7 @@ public class ClassController {
 
     }
 
-    public void crateRule(String rule, int id, String name, String status){
-        String[] s = rule.split(",");
-        String type = s[0];
-        String operator = s[1];
-        String value1 = s[2];
-        String value2 = s[3];
-        String column1 = s[4];
-        String column2 = s[5];
-        String table1 = s[6];
-        String table2 = s[7];
-        String url= s[8];
+    public void crateRule(int id, String name, String status,String url, String type,String operator, String value1, String value2, String column1, String column2, String table1, String table2){
 
         if (type.equals("rangeRule")){
             Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,url, id, name, status);
@@ -247,15 +323,6 @@ public class ClassController {
                 rule.setStatus(status);
             }
         }
-    }
-
-    public ArrayList<String> getRules(String name){
-        ArrayList<String> rules = new ArrayList<String>();
-        Database database = getDatabase(name);
-        for (Business_Rule rule : database.getRules()){
-            rules.add(rule.toString() + "," + database.getName());
-        }
-        return rules;
     }
 
     public ArrayList<String> getColumns(String url, String table) {

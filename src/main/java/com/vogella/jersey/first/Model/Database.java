@@ -15,6 +15,7 @@ public class Database {
     public Database(String name, String port, String service, String username, String password) {
         this.name = name;
         targetConnector = new TargetConnector(name, port, service, username, password);
+        System.out.println("aa");
     }
     public String getName(){
         return name;

@@ -1,12 +1,8 @@
 package com.vogella.jersey.first.repDatabase;
 
-import com.vogella.jersey.first.Model.Business_Rule;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by marti on 23-1-2018.
@@ -128,6 +124,51 @@ public class RepConnector {
             disconnect();
         }catch (Exception e){e.printStackTrace();}
         return rules;
+    }
+
+    public ArrayList<String> getDatabases(int id){
+        ArrayList<String> databases = new ArrayList<String>();
+        try {
+            connect();
+            ResultSet set = select(String.format("select * from klant_database_target, database_target where inlogid = %d and database_target_id = id", id));
+            while (set.next()) {
+                StringBuilder s = new StringBuilder();
+                s.append(set.getString("url") + ",");
+                s.append(set.getString("port") + ",");
+                s.append(set.getString("service") + ",");
+                s.append(set.getString("username") + ",");
+                s.append(set.getString("password"));
+
+                databases.add(s.toString());
+            }
+            disconnect();
+        }catch (Exception e){e.printStackTrace();}
+        return databases;
+    }
+
+    public void saveRule(String url, String type,String operator, String value1, String value2, String column1, String column2, String table1, String table2){
+        connect();
+        insert(String.format("insert into Businessrule (status, type, operator, database_target_id, value1, value2, column1, column2,table1, table2) values ('new' ,'%s','%s',5,'%s','%s','%s','%s','%s','%s')",type, operator, value1, value2, column1, column2,table1, table2));
+        disconnect();
+    }
+
+    public void alterRule(String url, String name, String status){
+        connect();
+        insert(String.format("update BUSINESSRULE set status = '%s' where name = '%s' and (select id from database_target where url = '%s') = database_target_id", status, name, url));
+        disconnect();
+    }
+
+    public String getLastRule(){
+        ResultSet s = select(" select * from businessrule where id = (select max(id) from BUSINESSRULE)");
+        StringBuilder sB = new StringBuilder();
+        try {
+            connect();
+            while (s.next()) {
+                sB.append(s.getInt("id") + ",");
+                sB.append(s.getInt("name"));
+            }
+        }catch (Exception e){}
+        return s.toString();
     }
 }
 
