@@ -140,7 +140,7 @@ public class DatabaseResource{
         TargetConnector conn = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
         if (status.equals("enabled") || status.equals("disabled")){
             String table = cC.getDatabase(url).getBusiness_Rule(name).getTable1().getName();
-            cC.getDatabase(url).getTargetConnector().changeState("", status, name);
+            cC.getDatabase(url).getTargetConnector().changeState(table, status, name);
         }
         try{
             connector.connect();
