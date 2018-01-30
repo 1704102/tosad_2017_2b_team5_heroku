@@ -59,7 +59,7 @@ public class Business_Rule {
             this.name = name;
             this.status = status;
             type = "rangeRule";
-            validateRangeRule();
+           // validateRangeRule();
         }catch(NullPointerException e){e.printStackTrace();}
     }
     //This is the constructor for tuple rules
