@@ -169,7 +169,7 @@ public class RepConnector {
             }
             disconnect();
         }catch (Exception e){}
-        return s.toString();
+        return sB.toString();
     }
 }
 
