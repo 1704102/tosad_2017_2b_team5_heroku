@@ -167,10 +167,12 @@ public class Business_Rule {
         String column2 = "null";
         String table1 = "null";
         String table2 = "null";
+        String operatorS = "";
         if (this.column1 != null)column1 = this.column1.getName();
         if (this.column2 != null)column2 = this.column2.getName();
         if (this.table1 != null)table1 = this.table1.getName();
         if (this.table2 != null)table2 = this.table2.getName();
-        return id + "," + name + "," + status + "," + type + "," + operator.getOperator() + "," + value1 + "," + value2 + "," + column1 + "," + column2 + "," + table1 + "," + table2;
+        if (this.operator != null) operatorS = operator.getOperator();
+        return id + "," + name + "," + status + "," + type + "," + operatorS + "," + value1 + "," + value2 + "," + column1 + "," + column2 + "," + table1 + "," + table2;
     }
 }
