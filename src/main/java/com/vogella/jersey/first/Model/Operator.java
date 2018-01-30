@@ -31,7 +31,9 @@ public class Operator {
     }
 
     public String getOperator() {
-        return operator;
+        if(operator != null) {
+            return operator;
+        }else{return "";}
     }
 
     public Boolean getSucces() {

@@ -88,7 +88,7 @@ public class DatabaseResource{
                 cC.loadDatabase(set.getString("url"), c.GetDatabase(), con.getRules(set.getString("url")));
             }
             con.disconnect();
-        }catch (Exception e){}
+        }catch (Exception e){e.printStackTrace();}
         System.out.println(s.toString());
         return s.toString();
     }
@@ -106,7 +106,7 @@ public class DatabaseResource{
                 s.append(rule + "\n");
             }
             con.disconnect();
-        }catch (Exception e){}
+        }catch (Exception e){e.printStackTrace();}
         return s.toString();
     }
 
@@ -126,7 +126,7 @@ public class DatabaseResource{
             while (s.next()){
                 cC.crateRule(rule, s.getInt("id"), s.getString("name"), s.getString("status"));
             }
-        }catch (Exception e){return "false";}
+        }catch (Exception e){e.printStackTrace();return "false";}
         return "succes";
     }
 

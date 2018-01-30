@@ -46,7 +46,7 @@ public class RepConnector {
                 id = s.getString("id");
             }
             disconnect();
-        }catch (Exception e){}
+        }catch (Exception e){e.printStackTrace();}
         return id;
     }
 
@@ -72,6 +72,7 @@ public class RepConnector {
 
             disconnect();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -88,7 +89,7 @@ public class RepConnector {
         try {
             Statement stm = conn.createStatement();
             s = stm.executeQuery(query);
-        }catch (Exception e){}
+        }catch (Exception e){e.printStackTrace();}
         return s;
     }
 
@@ -97,7 +98,7 @@ public class RepConnector {
             Statement t = conn.createStatement();
                     t.execute(query);
             conn.commit();
-        }catch (Exception e){}
+        }catch (Exception e){e.printStackTrace();}
     }
 
     public int getResLength(ResultSet s){
@@ -106,7 +107,7 @@ public class RepConnector {
             while (s.next()) {
                 count++;
             }
-        }catch (Exception e){}
+        }catch (Exception e){e.printStackTrace();}
         return count;
     }
     public ArrayList<String> getRules(String url){
@@ -125,7 +126,7 @@ public class RepConnector {
                 System.out.println(str.toString());
             }
             disconnect();
-        }catch (Exception e){}
+        }catch (Exception e){e.printStackTrace();}
         return rules;
     }
 }

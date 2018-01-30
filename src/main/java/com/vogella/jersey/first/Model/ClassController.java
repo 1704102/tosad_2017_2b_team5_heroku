@@ -30,11 +30,13 @@ public class ClassController {
         boolean b =false;
         for(Database d : databases){
             if(d.getName().equals(databaseName)){
-                Table table=d.getTable(table1);
-                Column column =table.getColumn(Column1);
-                Business_Rule br = new Business_Rule(value1, value2,table, column, id, name, status);
-                d.addBusinessRules(br);
-                return(br);
+                try {
+                    Table table = d.getTable(table1);
+                    Column column = table.getColumn(Column1);
+                    Business_Rule br = new Business_Rule(value1, value2, table, column, id, name, status);
+                    d.addBusinessRules(br);
+                    return (br);
+                }catch (NullPointerException e){e.printStackTrace();}
             }
         }
         return null;
@@ -180,8 +182,6 @@ public class ClassController {
 
             if (type.equals("rangeRule")){
                 Business_Rule br = makeBusinessRangeRule(value1,value2,table1,column1,databaseName,id, name,status);
-                br.setBrName(name);
-                br.setStatus(status);
                 br.setId(id);
             }
             if (type.equals("attributerule")){

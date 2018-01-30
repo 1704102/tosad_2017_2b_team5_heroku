@@ -50,15 +50,17 @@ public class Business_Rule {
     private String Rulename;
     //This is the constructor for range rules
     public Business_Rule(String value1, String value2,Table table1,Column column1, int id, String name, String status){
-        this.value1=value1;
-        this.value2=value2;
-        this.table1=table1;
-        this.column1=column1;
-        this.id = id;
-        this.name = name;
-        this.status = status;
-        type="rangeRule";
-        validateRangeRule();
+        try{
+            this.value1 = value1;
+            this.value2 = value2;
+            this.table1 = table1;
+            this.column1 = column1;
+            this.id = id;
+            this.name = name;
+            this.status = status;
+            type = "rangeRule";
+            validateRangeRule();
+        }catch(NullPointerException e){e.printStackTrace();}
     }
     //This is the constructor for tuple rules
     public Business_Rule(Table table1, Column column1, Column column2, Operator operator, int id, String name, String status){

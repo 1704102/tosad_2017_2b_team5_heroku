@@ -128,7 +128,7 @@ public class TargetConnector {
             con.connect();
             con.insert(updateRule);
             con.disconnect();
-        } catch (Exception e) {
+        } catch (Exception e) {e.printStackTrace();
         }
 
 
