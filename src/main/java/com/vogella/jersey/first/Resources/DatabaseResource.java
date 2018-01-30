@@ -80,7 +80,9 @@ public class DatabaseResource{
                 s.append(set.getString("url") + ",");
                 s.append(set.getString("port") + ",");
                 s.append(set.getString("service"));
-
+                con.addDatabase(set.getString("url"),set.getString("port"),set.getString("service"),set.getString("username"),set.getString("password"),id);
+                TargetConnector c = new TargetConnector(set.getString("url"),set.getString("port"),set.getString("service"),set.getString("username"),set.getString("password"));
+                cC.loadDatabase(set.getString("url"), c.GetDatabase(), con.getRules(set.getString("url")));
             }
             con.disconnect();
         }catch (Exception e){}
