@@ -13,8 +13,8 @@ public class ClassController {
     public ClassController(){}
     private ResourceInterface resourceInterface= new ResourceInterface();
 
-    public void loadDatabase(String name, HashMap<String,ArrayList<String>> database, ArrayList<String> rules){
-        Database d = new Database(name);
+    public void loadDatabase(String name, String port, String service, String username, String password, HashMap<String,ArrayList<String>> database, ArrayList<String> rules){
+        Database d = new Database(name, port, service, username, password);
         for ( String key : database.keySet() ) {
             d.addtable(key);
             for(int i = 0; i < database.get(key).size(); i++){
@@ -296,7 +296,7 @@ public class ClassController {
             values.add(br.getTable1().getName());
             values.add(br.getColumn1().getName());
             values.add(br.getColumn2().getName());
-            values.add(br.getBrName());
+                values.add(br.getBrName());
 
         }
         if (type.equals("attributerule")){

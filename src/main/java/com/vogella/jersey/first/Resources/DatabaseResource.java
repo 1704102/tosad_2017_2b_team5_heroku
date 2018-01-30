@@ -34,7 +34,7 @@ public class DatabaseResource{
 
           // TargetConnector c = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
 
-            cC.loadDatabase(url, c.GetDatabase(), rC.getRules(url));
+            cC.loadDatabase(url, port, service, username, password, c.GetDatabase(), rC.getRules(url));
 
             return "succes";
         }catch (Exception e){
@@ -85,7 +85,7 @@ public class DatabaseResource{
                 s.append(set.getString("port") + ",");
                 s.append(set.getString("service"));
                 TargetConnector c = new TargetConnector(set.getString("url"),set.getString("port"),set.getString("service"),set.getString("username"),set.getString("password"));
-                cC.loadDatabase(set.getString("url"), c.GetDatabase(), con.getRules(set.getString("url")));
+                cC.loadDatabase(set.getString("url"),set.getString("port"),set.getString("service"),set.getString("username"),set.getString("password"), c.GetDatabase(), con.getRules(set.getString("url")));
             }
             con.disconnect();
         }catch (Exception e){e.printStackTrace();}
@@ -137,6 +137,11 @@ public class DatabaseResource{
     public String saveRule(@QueryParam("url")  String url,@QueryParam("name")  String name,@QueryParam("status")  String status) {
         cC.editBusinessRule(url, name, status);
         RepConnector connector = new RepConnector();
+        TargetConnector conn = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+        if (status.equals("enabled") || status.equals("disabled")){
+            //String name = cC.getDatabase(url).get
+            String sql = String.format("alter table table_name ENABLE constraint %s",status, name);
+        }
         try{
             connector.connect();
             connector.insert(String.format("update BUSINESSRULE set status = '%s' where name = '%s' and (select id from database_target where url = '%s') = database_target_id", status, name, url));
