@@ -110,7 +110,8 @@ public class DatabaseResource{
     @Produces(MediaType.APPLICATION_JSON)
     public  String saveRule(@QueryParam("url")  String url,@QueryParam("type")  String type,@QueryParam("operator")
             String operator,@QueryParam("value1")  String value1,@QueryParam("value2")  String value2,@QueryParam("column1")
-            String column1,@QueryParam("column2")  String column2,@QueryParam("table1")  String table1,@QueryParam("table2")  String table2){
+                                    String column1,@QueryParam("column2")  String column2,@QueryParam("table1")  String table1,@QueryParam("table2")  String table2){
+
         RepConnector con = new RepConnector();
         try {
             con.connect();
@@ -126,51 +127,66 @@ public class DatabaseResource{
 
 
     @GET
-    @Path("")
+    @Path("/rule/alter")
     @Produces(MediaType.APPLICATION_JSON)
-    public static void makeRule(ArrayList<String> arr){
-        String type = arr.get(0);
-        String sql ="" ;
-        if (type.equals("rangeRule")){
-
-            String value1 = arr.get(1);
-            String value2 = arr.get(2);
-            String table1 = arr.get(3);
-            String column1 = arr.get(4);
-            String bName = arr.get(5);
-
-            sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" between "+value1+" and " +value2+" )" ;
-        }
-        if (type.equals("tupleRule")){
-            String operator = arr.get(1);
-            String table1 = arr.get(2);
-            String column1 = arr.get(3);
-            String column2 = arr.get(4);
-            String bName = arr.get(5);
-            sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" operator "+column2+")" ;
-        }
-        if (type.equals("attributerule") ){
-            String value1 = arr.get(1);
-            String operator = arr.get(2);
-            String table1 = arr.get(3);
-            String column1 = arr.get(4);
-            String bName = arr.get(5);
-            sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" operator "+value1+")" ;
-        }
-
-        TargetConnector c = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+    public String saveRule(@QueryParam("url")  String url,@QueryParam("name")  String name,@QueryParam("status")  String status) {
+        cC.editBusinessRule(url, name, status);
+        RepConnector connector = new RepConnector();
         try{
-            c.connect();
-            c.insert(sql);
-            c.disconnect();}
-        catch(Exception e){}
-        RepConnector con = new RepConnector();
-        try {
-            String updateRule = "update businessrule set status = \'complete\' where name = "+ arr.get(5);
-            con.connect();
-            con.insert(updateRule);
-            con.disconnect();
-        }catch (Exception e){}
-
+            connector.connect();
+            connector.insert(String.format("update BUSINESSRULE set status = '%s' where name = '%s' and (select id from database_target where url = '%s') = database_target_id", status, name, url));
+            connector.disconnect();
+        }catch (Exception e){e.printStackTrace();}
+        System.out.println("aa");
+        return "";
     }
+
+//    @GET
+//    @Path("")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public static void makeRule(ArrayList<String> arr){
+//        String type = arr.get(0);
+//        String sql ="" ;
+//        if (type.equals("rangeRule")){
+//
+//            String value1 = arr.get(1);
+//            String value2 = arr.get(2);
+//            String table1 = arr.get(3);
+//            String column1 = arr.get(4);
+//            String bName = arr.get(5);
+//
+//            sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" between "+value1+" and " +value2+" )" ;
+//        }
+//        if (type.equals("tupleRule")){
+//            String operator = arr.get(1);
+//            String table1 = arr.get(2);
+//            String column1 = arr.get(3);
+//            String column2 = arr.get(4);
+//            String bName = arr.get(5);
+//            sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" operator "+column2+")" ;
+//        }
+//        if (type.equals("attributerule") ){
+//            String value1 = arr.get(1);
+//            String operator = arr.get(2);
+//            String table1 = arr.get(3);
+//            String column1 = arr.get(4);
+//            String bName = arr.get(5);
+//            sql="alter table "+table1+ " add contraint "+ bName +" check( " + table1+"."+column1+" operator "+value1+")" ;
+//        }
+//
+//        TargetConnector c = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+//        try{
+//            c.connect();
+//            c.insert(sql);
+//            c.disconnect();}
+//        catch(Exception e){}
+//        RepConnector con = new RepConnector();
+//        try {
+//            String updateRule = "update businessrule set status = \'complete\' where name = "+ arr.get(5);
+//            con.connect();
+//            con.insert(updateRule);
+//            con.disconnect();
+//        }catch (Exception e){}
+//
+//    }
 }

@@ -7,7 +7,7 @@ public class ResourceInterface {
 
     }
     public void SaveRule(ArrayList<String> arr){
-        DatabaseResource.makeRule(arr);
+        //DatabaseResource.makeRule(arr);
     }
 
 }

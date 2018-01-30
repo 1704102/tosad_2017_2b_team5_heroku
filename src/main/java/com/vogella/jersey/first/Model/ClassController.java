@@ -238,6 +238,15 @@ public class ClassController {
         return database;
     }
 
+    public void editBusinessRule(String url, String name, String status){
+        ArrayList<Business_Rule> rules = getDatabase(url).getRules();
+        for(Business_Rule rule: rules){
+            if (rule.getBrName().equals(name)){
+                rule.setStatus(status);
+            }
+        }
+    }
+
     public ArrayList<String> getRules(String name){
         ArrayList<String> rules = new ArrayList<String>();
         Database database = getDatabase(name);
@@ -255,6 +264,14 @@ public class ClassController {
             out.add(column.getName());
         }
         return out;
+    }
+
+    public void commitRules(String databasename){
+        Database d =  getDatabase(databasename);
+        for ( Business_Rule b: d.getRules()){
+            String s =b.getStatus();
+            if(s.equals("ready for generation")) commitRule(b.getId(),databasename);
+        }
     }
 
     public void commitRule(int brID, String databasename){

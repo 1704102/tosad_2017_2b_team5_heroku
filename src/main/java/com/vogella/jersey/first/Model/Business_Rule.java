@@ -85,12 +85,14 @@ public class Business_Rule {
     //A validationCheck in place for range rule to make sure value1 has a higher value then value2.
 // This prevents problems when creating the final business rules because they will not work when the values are in the opposite order
     private void validateRangeRule(){
-//        if (value1>value2){
-//            int rotatevalue;
-//            rotatevalue= value1;
-//            value1=value2;
-//            value2=rotatevalue;
-//        }
+        int value1c = Integer.parseInt(value1);
+        int value2c = Integer.parseInt(value2);
+        if (value1c>value2c){
+            String rotatevalue;
+            rotatevalue= value1;
+            value1=value2;
+            value2=rotatevalue;
+        }
     }
 
     public Operator getOperator() {
