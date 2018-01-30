@@ -6,13 +6,13 @@ import com.vogella.jersey.first.Model.Table;
 
 public class Business_Rule {
     private int id;
-    private String name;
+    private String name = "";
     private Operator operator;
-    private String value1, value2;
+    private String value1 = "", value2 = "";
     private Table table1, table2;
     private Column column1, column2;
-    private String type;
-    private String status;
+    private String type = "";
+    private String status = "";
 
     public int getId() {
         return id;
