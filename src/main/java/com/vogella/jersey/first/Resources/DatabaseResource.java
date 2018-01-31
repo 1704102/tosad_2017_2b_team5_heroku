@@ -3,7 +3,7 @@ package com.vogella.jersey.first.Resources;
 import com.vogella.jersey.first.Model.ClassController;
 import com.vogella.jersey.first.DOA.TargetConnector;
 import com.vogella.jersey.first.repDatabase.RepConnector;
-
+import com.vogella.jersey.first.Model.ModelFacade;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.ResultSet;
@@ -15,13 +15,13 @@ import java.util.ArrayList;
 
 @Path("database")
 public class DatabaseResource{
-    public static Facade facade = new Facade();
+    public static ModelFacade facade = new ModelFacade();
     @GET
     @Path("/init")
     @Produces(MediaType.APPLICATION_JSON)
     public String Login(@QueryParam("url")  String url,@QueryParam("port")  String port,@QueryParam("service")  String service,@QueryParam("username")  String username,@QueryParam("password")  String password,@QueryParam("id")  int id) {
         String s = facade.loadDatabase(url, port, service, username, password,id);
-        facade.cC.getRepConnector().linkDatabase(url,id);
+        facade.linkDatabase(url,id);
         return s;
 
     }

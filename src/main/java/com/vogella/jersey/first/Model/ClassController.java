@@ -1,7 +1,6 @@
 package com.vogella.jersey.first.Model;
 
 
-import com.vogella.jersey.first.DOA.TargetConnector;
 import com.vogella.jersey.first.repDatabase.RepConnector;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class ClassController {
 
     public String loadDatabase(String name, String port, String service, String username, String password, int id){
         Database d = new Database(name, port, service, username, password);
-        HashMap<String, ArrayList<String>> databasesH = d.getTargetConnector().GetDatabaseData();
+        HashMap<String, ArrayList<String>> databasesH = d.getDummyTargetConnector().GetDatabaseData();
 
         for ( String key : databasesH.keySet() ) {
             d.addtable(key);
@@ -294,7 +293,7 @@ public class ClassController {
             values.add(br.getColumn1().getName());
             values.add(br.getBrName());
         }
-        TargetConnector connector = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
+        DummyTargetConnector connector = d.getDummyTargetConnector();
         connector.makeRule(values);
         getDatabase(databasename).getBusiness_Rule(br.getId()).setStatus("enabled");
     }

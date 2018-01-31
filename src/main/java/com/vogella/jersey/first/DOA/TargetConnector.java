@@ -23,7 +23,6 @@ public class TargetConnector {
         this.username = username;
         this.password = password;
         this.service = service;
-        connect();
     }
 
 
