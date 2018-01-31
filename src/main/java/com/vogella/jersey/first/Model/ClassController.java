@@ -2,6 +2,7 @@ package com.vogella.jersey.first.Model;
 
 
 import com.vogella.jersey.first.repDatabase.RepConnector;
+import com.vogella.jersey.first.repDatabase.repoFacade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +11,8 @@ import java.util.HashMap;
 public class ClassController {
     private ArrayList<Database> databases= new ArrayList();
     public ClassController(){}
-    private RepConnector repConnector = new RepConnector();
+
+    repoFacade repConnectorfacade = new repoFacade();
 
     public String loadDatabase(String name, String port, String service, String username, String password, int id){
         Database d = new Database(name, port, service, username, password);
@@ -23,8 +25,8 @@ public class ClassController {
             }
         }
         databases.add(d);
-        loadExistingRules(repConnector.getRules(name));
-        repConnector.addDatabase(name,port,service,username,password,id);
+        loadExistingRules(repConnectorfacade.getRules(name));
+        repConnectorfacade.addDatabase(name,port,service,username,password,id);
 
         return "succes";
     }
@@ -296,7 +298,8 @@ public class ClassController {
         DummyTargetConnector connector = d.getDummyTargetConnector();
         connector.makeRule(values);
         getDatabase(databasename).getBusiness_Rule(br.getId()).setStatus("enabled");
+        repConnectorfacade.updateRuletoactive(br.getBrName());
     }
-    public RepConnector getRepConnector(){return repConnector;};
+    public repoFacade getRepConnectorfacade(){return repConnectorfacade;};
 
 }

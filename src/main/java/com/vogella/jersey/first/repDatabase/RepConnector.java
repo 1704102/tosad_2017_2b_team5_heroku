@@ -172,6 +172,16 @@ public class RepConnector {
         }catch (Exception e){}
         return sB.toString();
     }
+    public void updateRuletoactive(String bName){
+        try {
+            String updateRule = String.format("update businessrule set status = \'enabled\' where name = '%s' ", bName);
+            connect();
+            insert(updateRule);
+            disconnect();
+        } catch (Exception e) {e.printStackTrace();
+        }
+
+    }
 }
 
 
