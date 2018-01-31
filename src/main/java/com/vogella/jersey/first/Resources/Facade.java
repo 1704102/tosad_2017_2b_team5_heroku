@@ -52,7 +52,9 @@ public class Facade {
             String password = split[4];
 
             s.append(url+ "," + port + "," + service + "\n");
-            cC.loadDatabase(url, port,service,username,password,id);
+            if(cC.getDatabase(url) == null) {
+                cC.loadDatabase(url, port, service, username, password, id);
+            }
         }
         return s.toString();
     }

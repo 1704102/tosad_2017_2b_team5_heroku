@@ -117,6 +117,7 @@ public class ClassController {
 
     }
 
+
     public ArrayList<String> saveRule(String databaseName1,Business_Rule br){
         ArrayList<String> saveRules= new ArrayList();
         String BRtype =br.getType();
@@ -167,15 +168,6 @@ public class ClassController {
         return saveRules;
 
     }
-    public ArrayList<String> Commitsave(String databaseName, Business_Rule br) {
-        ArrayList<String>newRule=saveRule(databaseName,br);
-        String naam = br.getRulename();
-        newRule.add(naam);
-        return newRule;
-    }
-    public void repoSave(String repo){
-        //save to reposotory.
-    }
 
     public void loadExistingRules(ArrayList<String> businessrulesData){
         for(String splitted : businessrulesData){
@@ -222,7 +214,6 @@ public class ClassController {
             Business_Rule br = makeTupleCompareRule(table1,column1,column2,operator,url, id, name, status);
         }
     }
-    public void targetSave(){}
 
     public ArrayList<String> getTables(String url){
         ArrayList<String> tables = new ArrayList<String>();
@@ -267,15 +258,17 @@ public class ClassController {
         Database d =  getDatabase(databasename);
         for ( Business_Rule b: d.getRules()){
             String s =b.getStatus();
-            if(s.equals("ready for generation")) commitRule(b.getId(),databasename);
+            if(s.equals("ready for generation")) commitRule(b,databasename);
         }
     }
 
-    public void commitRule(int brID, String databasename){
+    public void commitRule(Business_Rule br, String databasename){
         ArrayList<String> values= new ArrayList();
         Database d = getDatabase(databasename);
-        Business_Rule br = d.getBusiness_Rule(brID);
+
         String type = br.getType();
+
+        //
         values.add(type);
 
         if (type.equals("rangeRule")){
@@ -303,7 +296,7 @@ public class ClassController {
         }
         TargetConnector connector = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
         connector.makeRule(values);
-        getDatabase(databasename).getBusiness_Rule(brID).setStatus("enabled");
+        getDatabase(databasename).getBusiness_Rule(br.getId()).setStatus("enabled");
     }
     public RepConnector getRepConnector(){return repConnector;};
 
