@@ -138,7 +138,7 @@ public class TargetConnector {
         connect();
         String s = "";
         if (status.equals("enabled")) s = "NOVALIDATE";
-        String sql = String.format("alter table %s %s %s constraint %s",table,s , status.substring(0, status.length()-1), name);
+        String sql = String.format("alter table %s %s %s constraint %s",table , status.substring(0, status.length()-1),s, name);
         insert(sql);
         disconnect();
     }
