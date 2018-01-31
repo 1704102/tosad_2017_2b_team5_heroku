@@ -51,7 +51,7 @@ public class RepConnector {
             connect();
             ResultSet s = select(String.format("select * from database_target where url = '%s'", url));
 
-            if (getResLength(s) < 1) {
+            if (getResLength(s) == 0) {
                 insert(String.format("insert into database_target(url,port,service,username,password) values ('%s', '%s', '%s', '%s', '%s')", url, port, service, username, password));
                 System.out.println("added database");
             }
@@ -59,7 +59,7 @@ public class RepConnector {
             ResultSet s1 = select(String.format("select * from database_target a, KLANT_DATABASE_TARGET b where a.url = '%s' and a.id = b.database_target_id and b.INLOGID = %d", url, id));
             ResultSet s2 = select(String.format("select * from database_target where url = '%s'", url));
             while (s2.next()){
-                if (getResLength(s1) < 1){
+                if (getResLength(s1) == 0){
                     int idD = s2.getInt("id");
                     insert(String.format("insert into klant_database_target(database_target_id, inlogid) values (%d, %d)",idD,id));
                 }
