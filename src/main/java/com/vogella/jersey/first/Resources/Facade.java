@@ -42,6 +42,7 @@ public class Facade {
     public String getDatabasesString(int id){
         StringBuilder s = new StringBuilder();
         ArrayList<String> databases = cC.getRepConnector().getDatabases(id);
+
         for(String database: databases){
 
             String[] split = database.split(",");

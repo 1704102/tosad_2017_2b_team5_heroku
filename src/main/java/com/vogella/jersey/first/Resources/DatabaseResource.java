@@ -20,7 +20,9 @@ public class DatabaseResource{
     @Path("/init")
     @Produces(MediaType.APPLICATION_JSON)
     public String Login(@QueryParam("url")  String url,@QueryParam("port")  String port,@QueryParam("service")  String service,@QueryParam("username")  String username,@QueryParam("password")  String password,@QueryParam("id")  int id) {
-        return facade.loadDatabase(url, port, service, username, password,id);
+        String s = facade.loadDatabase(url, port, service, username, password,id);
+        facade.cC.getRepConnector().linkDatabase(url,id);
+        return s;
 
     }
 
