@@ -1,19 +1,15 @@
-package com.vogella.jersey.first.Resources;
-
-import com.vogella.jersey.first.Model.Business_Rule;
-import com.vogella.jersey.first.Model.ClassController;
-import com.vogella.jersey.first.Model.Database;
+package com.vogella.jersey.first.Model;
 
 import java.util.ArrayList;
 
 /**
  * Created by marti on 30-1-2018.
  */
-public class Facade {
+public class ModelFacade {
 
     ClassController cC;
 
-    public Facade(){
+    public ModelFacade(){
         cC = new ClassController();
     }
 
@@ -41,7 +37,7 @@ public class Facade {
 
     public String getDatabasesString(int id){
         StringBuilder s = new StringBuilder();
-        ArrayList<String> databases = cC.getRepConnector().getDatabases(id);
+        ArrayList<String> databases = cC.getRepConnectorfacade().getDatabases(id);
 
         for(String database: databases){
 
@@ -70,11 +66,10 @@ public class Facade {
     }
 
     public String saveRule(String url, String type,String operator, String value1, String value2, String column1, String column2, String table1, String table2){
-        cC.getRepConnector().saveRule(url,type,operator,value1,value2,column1,column2,table1,table2);
+        cC.getRepConnectorfacade().saveRule(url,type,operator,value1,value2,column1,column2,table1,table2);
 
-        String[] data = cC.getRepConnector().getLastRule().split(",");
+        String[] data = cC.getRepConnectorfacade().getLastRule().split(",");
         cC.crateRule(Integer.parseInt(data[0]), data[1], "new", url,type,operator,value1,value2,column1,column2,table1,table2);
-
         return "succes";
     }
 
@@ -83,9 +78,9 @@ public class Facade {
 
         if (status.equals("enabled") || status.equals("disabled")){
             String table =cC.getDatabase(url).getBusiness_Rule(name).getTable1().getName();
-            cC.getDatabase(url).getTargetConnector().changeState(table, status, name);
+            cC.getDatabase(url).getDummyTargetConnector().changeState(table, status, name);
         }
-        cC.getRepConnector().alterRule(url,name,status);
+        cC.getRepConnectorfacade().alterRule(url,name,status);
         return "succes";
     }
 
@@ -93,4 +88,7 @@ public class Facade {
         cC.commitRules(url);
         return "succes";
     }
+    public void linkDatabase(String url, int id){
+        cC.getRepConnectorfacade().linkDatabase(url,id);}
+
 }

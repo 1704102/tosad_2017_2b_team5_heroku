@@ -1,11 +1,10 @@
 package com.vogella.jersey.first.DOA;
 
-import com.vogella.jersey.first.repDatabase.RepConnector;
+
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 
 public class TargetConnector {
 
@@ -23,7 +22,6 @@ public class TargetConnector {
         this.username = username;
         this.password = password;
         this.service = service;
-        connect();
     }
 
 
@@ -122,14 +120,7 @@ public class TargetConnector {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        RepConnector con = new RepConnector();
-        try {
-            String updateRule = String.format("update businessrule set status = \'enabled\' where name = '%s' ", arr.get(5));
-            con.connect();
-            con.insert(updateRule);
-            con.disconnect();
-        } catch (Exception e) {e.printStackTrace();
-        }
+
 
 
     }
