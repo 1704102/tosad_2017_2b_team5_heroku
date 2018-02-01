@@ -82,6 +82,7 @@ public class ClassController {
         for (Business_Rule rule : database.getRules()){
             rules.add(rule.toString() + "," + database.getName());
         }
+        System.out.println("");
         return rules;
     }
 
