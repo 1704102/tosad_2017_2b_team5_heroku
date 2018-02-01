@@ -70,7 +70,6 @@ public class ModelFacade {
 
         String[] data = cC.getRepConnectorfacade().getLastRule().split(",");
         cC.crateRule(Integer.parseInt(data[0]), data[1], "new", url,type,operator,value1,value2,column1,column2,table1,table2);
-
         return "succes";
     }
 
