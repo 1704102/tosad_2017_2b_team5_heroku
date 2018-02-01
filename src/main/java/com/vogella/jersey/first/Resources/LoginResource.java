@@ -1,6 +1,6 @@
 package com.vogella.jersey.first.Resources;
 
-import com.vogella.jersey.first.repDatabase.repoFacade;
+import com.vogella.jersey.first.repDatabase.RepConnector;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -13,7 +13,7 @@ import javax.ws.rs.QueryParam;
 public class LoginResource {
     @GET
     public String login(@QueryParam("username")  String username, @QueryParam("password")  String password){
-        repoFacade con = new repoFacade();
+        RepConnector con = new RepConnector();
         int id;
         if (con.login(username, password) != "0"){return con.login(username,password);}else {return "false";}
     }

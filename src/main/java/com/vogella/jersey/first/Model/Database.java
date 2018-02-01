@@ -10,11 +10,11 @@ public class Database {
     private ArrayList<Table> tables= new ArrayList();
     private ArrayList<Business_Rule> b_Rules= new ArrayList();
     private String name;
-    private DummyTargetConnector targetConnector;
+    private TargetConnector targetConnector;
 
     public Database(String name, String port, String service, String username, String password) {
         this.name = name;
-        targetConnector = new DummyTargetConnector(name, port, service, username, password);
+        targetConnector = new TargetConnector(name, port, service, username, password);
         System.out.println("aa");
     }
     public String getName(){
@@ -64,7 +64,7 @@ public class Database {
         return null;
     }
 
-    public DummyTargetConnector getDummyTargetConnector(){
+    public TargetConnector getTargetConnector(){
         return targetConnector;
     }
 }

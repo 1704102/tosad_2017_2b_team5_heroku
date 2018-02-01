@@ -1,8 +1,8 @@
 package com.vogella.jersey.first.Model;
 
 
+import com.vogella.jersey.first.DOA.TargetConnector;
 import com.vogella.jersey.first.repDatabase.RepConnector;
-import com.vogella.jersey.first.repDatabase.repoFacade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,12 +11,11 @@ import java.util.HashMap;
 public class ClassController {
     private ArrayList<Database> databases= new ArrayList();
     public ClassController(){}
-
-    repoFacade repConnectorfacade = new repoFacade();
+    private RepConnector repConnector = new RepConnector();
 
     public String loadDatabase(String name, String port, String service, String username, String password, int id){
         Database d = new Database(name, port, service, username, password);
-        HashMap<String, ArrayList<String>> databasesH = d.getDummyTargetConnector().GetDatabaseData();
+        HashMap<String, ArrayList<String>> databasesH = d.getTargetConnector().GetDatabaseData();
 
         for ( String key : databasesH.keySet() ) {
             d.addtable(key);
@@ -25,8 +24,8 @@ public class ClassController {
             }
         }
         databases.add(d);
-        loadExistingRules(repConnectorfacade.getRules(name));
-        repConnectorfacade.addDatabase(name,port,service,username,password,id);
+        loadExistingRules(repConnector.getRules(name));
+        repConnector.addDatabase(name,port,service,username,password,id);
 
         return "succes";
     }
@@ -82,7 +81,6 @@ public class ClassController {
         for (Business_Rule rule : database.getRules()){
             rules.add(rule.toString() + "," + database.getName());
         }
-        System.out.println("");
         return rules;
     }
 
@@ -296,11 +294,10 @@ public class ClassController {
             values.add(br.getColumn1().getName());
             values.add(br.getBrName());
         }
-        DummyTargetConnector connector = d.getDummyTargetConnector();
+        TargetConnector connector = new TargetConnector("ondora02.hu.nl", "8521", "cursus02.hu.nl", "tosad_2017_2b_team5_target", "tosad_2017_2b_team5_target");
         connector.makeRule(values);
         getDatabase(databasename).getBusiness_Rule(br.getId()).setStatus("enabled");
-        repConnectorfacade.updateRuletoactive(br.getBrName());
     }
-    public repoFacade getRepConnectorfacade(){return repConnectorfacade;};
+    public RepConnector getRepConnector(){return repConnector;};
 
 }
